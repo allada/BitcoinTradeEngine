@@ -9,6 +9,7 @@
 #define	ORDER_H
 
 #include "HashTable.h"
+#include "Transaction.h"
 
 enum order_type_t {
 	SELL = 0,
@@ -32,12 +33,15 @@ public:
 	u_int32_t		timestamp;
 	order_status_t	status;
 
-	Order::Order(const Market &market, const order_type_t direction, const u_int64_t qty, const u_int64_t price, const int order_id, const u_int32_t timestamp, const order_status_t status);
-	Order::Order(const Market &market, const order_type_t direction, const u_int64_t qty, const u_int64_t price);
+	std::vector<Transaction>	transactions;
+
+	Order(const Market &market, const order_type_t direction, const u_int64_t qty, const u_int64_t price, const int order_id, const u_int32_t timestamp, const order_status_t status);
+	Order(const Market &market, const order_type_t direction, const u_int64_t qty, const u_int64_t price);
 	virtual ~Order();
 
-	Order::remove();
-	Order::save();
+	void addTransaction(const Transaction &trans);
+	bool remove();
+	bool save();
 
 	static Order getOrder(int order_id){
 		return Order::orders->Lookup(order_id);

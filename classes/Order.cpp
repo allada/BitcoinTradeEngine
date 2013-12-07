@@ -7,8 +7,10 @@
 
 #include <stdlib.h>
 #include <ctime>
+#include <vector>
 
 #include "Order.h"
+#include "Market.h"
 
 
 Order::Order() {
@@ -38,6 +40,9 @@ Order::init(){
 	if(this->status == ACTIVE || this->status == PARTIAL)
 		Order::orders->Insert(this->order_id)->value = this;
 }
+Order::addTransaction(const Transaction &trans) {
+
+}
 Order::remove() {
 	Order::orders->Delete(this->order_id);
 }
@@ -46,7 +51,7 @@ Order::save() {
 }
 
 Order::~Order() {
-	this->save();
+	this->market->removeOrder(this);
 	this->market = NULL;
 }
 

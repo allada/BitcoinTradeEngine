@@ -7,7 +7,6 @@
 
 #include "Currency.h"
 
-
 Currency::Currency(const std::string &name) {
 	this->name = name;
 }
