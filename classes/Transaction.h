@@ -4,34 +4,35 @@
  *
  * Created on December 6, 2013, 8:53 PM
  */
-
 #ifndef TRANSACTION_H
 #define	TRANSACTION_H
+
+class Transaction;
 
 #include "Order.h"
 
 class Transaction {
 public:
-	u_int64_t	transaction_id;
-	Order		buyOrder;
-	Order		sellOrder;
-	u_int64_t	price;
-	u_int64_t	qty;
-	u_int32_t	timestamp;
+	uint64_t	transaction_id;
+	Order		*buyOrder;
+	Order		*sellOrder;
+	uint64_t	price;
+	uint64_t	qty;
+	uint32_t	timestamp;
 
-	Transaction(Order *BuyOrder, Order *SellOrder, u_int64_t price, u_int64_t qty, u_int64_t transaction_id, u_int32_t timestamp);
-	Transaction(Order *BuyOrder, Order *SellOrder, u_int64_t price, u_int64_t qty);
+	Transaction(Order *buyOrder, Order *sellOrder, uint64_t price, uint64_t qty, uint64_t transaction_id, uint32_t timestamp);
+	Transaction(Order *buyOrder, Order *sellOrder, uint64_t price, uint64_t qty);
 	virtual ~Transaction();
 
-	save();
+	bool save();
 
-	static Transaction getTransaction(int transaction_id){
+	/*static Transaction getTransaction(int transaction_id){
 
-	}
+	}*/
 private:
-	static u_int64_t next_id;
-	static u_int64_t Order::getNextId();
-	Transaction::init();
+	static uint64_t next_id;
+	static uint64_t getNextId();
+	void init();
 };
 
 #endif	/* TRANSACTION_H */

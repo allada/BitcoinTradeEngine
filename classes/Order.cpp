@@ -5,18 +5,9 @@
  * Created on December 6, 2013, 5:51 PM
  */
 
-#include <stdlib.h>
-#include <ctime>
-#include <vector>
-
 #include "Order.h"
-#include "Market.h"
 
-
-Order::Order() {
-}
-
-Order::Order(const Market &market, const u_int32_t account_id, const order_type_t direction, const u_int64_t qty, const u_int64_t price, const u_int64_t order_id, const u_int32_t timestamp, const order_status_t status) {
+Order::Order(Market *market, const uint32_t account_id, const order_type_t direction, const uint64_t qty, const uint64_t price, const uint32_t order_id, const uint32_t timestamp, const order_status_t status) {
 	this->order_id	= order_id;
 	this->account_id=account_id;
 	this->market	= market;
@@ -26,7 +17,7 @@ Order::Order(const Market &market, const u_int32_t account_id, const order_type_
 	this->timestamp	= timestamp;
 	this->status	= status;
 }
-Order::Order(const Market &market, const u_int32_t account_id, const order_type_t direction, const u_int64_t qty, const u_int64_t price) {
+Order::Order(Market *market, const uint32_t account_id, const order_type_t direction, const uint64_t qty, const uint64_t price) {
 	this->market	= market;
 	this->order_id	= Order::getNextId();
 	this->account_id=account_id;
@@ -36,18 +27,19 @@ Order::Order(const Market &market, const u_int32_t account_id, const order_type_
 	this->timestamp	= std::time(0);
 	this->status	= ACTIVE;
 }
-Order::init(){
+void Order::init(){
 	if(this->status == ACTIVE || this->status == PARTIAL)
 		Order::orders->Insert(this->order_id)->value = this;
 }
-Order::addTransaction(const Transaction &trans) {
+void Order::addTransaction(Transaction &trans) {
 
 }
-Order::remove() {
+bool Order::remove() {
 	Order::orders->Delete(this->order_id);
+	return true;
 }
-Order::save() {
-
+bool Order::save() {
+	return true;
 }
 
 Order::~Order() {
@@ -55,6 +47,9 @@ Order::~Order() {
 	this->market = NULL;
 }
 
-static u_int64_t Order::getNextId() {
+Order *Order::getOrder(int order_id){
+	return Order::orders->Lookup(order_id)->value;
+};
+uint32_t Order::getNextId() {
 	return Order::next_id++;
 }

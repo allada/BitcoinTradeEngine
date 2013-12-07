@@ -7,6 +7,13 @@
 #include <iostream>
 #include <string>
 #include "classes/Currency.h"
+#include "classes/Order.h"
+#include "classes/Market.h"
+#include "classes/Transaction.h"
+
+HashTable *Order::orders = new HashTable;
+uint32_t Order::next_id = 0;
+uint64_t Transaction::next_id = 0;
 
 using namespace std;
 

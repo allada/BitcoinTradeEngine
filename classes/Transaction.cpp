@@ -7,7 +7,7 @@
 
 #include "Transaction.h"
 
-Transaction::Transaction(Order &buyOrder, Order &sellOrder, u_int64_t price, u_int64_t qty, u_int64_t transaction_id, u_int32_t timestamp) {
+Transaction::Transaction(Order *buyOrder, Order *sellOrder, uint64_t price, uint64_t qty, uint64_t transaction_id, uint32_t timestamp) {
 	this->buyOrder			= buyOrder;
 	this->sellOrder			= sellOrder;
 	this->price				= price;
@@ -15,7 +15,7 @@ Transaction::Transaction(Order &buyOrder, Order &sellOrder, u_int64_t price, u_i
 	this->transaction_id	= transaction_id;
 	this->timestamp			= timestamp;
 }
-Transaction::Transaction(Order &buyOrder, Order &sellOrder, u_int64_t price, u_int64_t qty) {
+Transaction::Transaction(Order *buyOrder, Order *sellOrder, uint64_t price, uint64_t qty) {
 	this->buyOrder			= buyOrder;
 	this->sellOrder			= sellOrder;
 	this->price				= price;
@@ -23,12 +23,12 @@ Transaction::Transaction(Order &buyOrder, Order &sellOrder, u_int64_t price, u_i
 	this->transaction_id	= Transaction::getNextId();
 	this->timestamp			= std::time(0);
 }
-Transaction::save() {
-
+bool Transaction::save() {
+	return true;
 }
 Transaction::~Transaction() {
 }
 
-static u_int64_t Transaction::getNextId() {
+uint64_t Transaction::getNextId() {
 	return Transaction::next_id++;
 }

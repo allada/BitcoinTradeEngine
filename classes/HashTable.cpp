@@ -7,7 +7,6 @@
 #include <assert.h>
 #include <memory.h>
 
-
 #define FIRST_CELL(hash) (m_cells + ((hash) & (m_arraySize - 1)))
 #define CIRCULAR_NEXT(c) ((c) + 1 != m_cells + m_arraySize ? (c) + 1 : m_cells)
 #define CIRCULAR_OFFSET(a, b) ((b) >= (a) ? (b) - (a) : m_arraySize + (b) - (a))
@@ -16,7 +15,7 @@
 //----------------------------------------------
 //  HashTable::HashTable
 //----------------------------------------------
-HashTable::HashTable(size_t initialSize)
+HashTable::HashTable(uint32_t initialSize)
 {
     // Initialize regular cells
     m_arraySize = initialSize;
@@ -43,7 +42,7 @@ HashTable::~HashTable()
 //----------------------------------------------
 //  HashTable::Lookup
 //----------------------------------------------
-HashTable::Cell* HashTable::Lookup(size_t key)
+HashTable::Cell* HashTable::Lookup(uint32_t key)
 {
     if (key)
     {
@@ -53,7 +52,7 @@ HashTable::Cell* HashTable::Lookup(size_t key)
             if (cell->key == key)
                 return cell;
             if (!cell->key)
-                return NULL;
+                return 0;
         }
     }
     else
@@ -61,14 +60,14 @@ HashTable::Cell* HashTable::Lookup(size_t key)
         // Check zero cell
         if (m_zeroUsed)
             return &m_zeroCell;
-        return NULL;
+        return 0;
     }
 };
 
 //----------------------------------------------
 //  HashTable::Insert
 //----------------------------------------------
-HashTable::Cell* HashTable::Insert(size_t key)
+HashTable::Cell* HashTable::Insert(uint32_t key)
 {
     if (key)
     {
@@ -179,7 +178,7 @@ void HashTable::Compact()
 //----------------------------------------------
 //  HashTable::Repopulate
 //----------------------------------------------
-void HashTable::Repopulate(size_t desiredSize)
+void HashTable::Repopulate(uint32_t desiredSize)
 {
     assert((desiredSize & (desiredSize - 1)) == 0);   // Must be a power of 2
     assert(m_population * 4  <= desiredSize * 3);
@@ -247,5 +246,5 @@ HashTable::Cell* HashTable::Iterator::Next()
     }
 
     // Finished
-    return m_cur = NULL;
+    return m_cur = 0;
 }

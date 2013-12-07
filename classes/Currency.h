@@ -9,18 +9,18 @@
 #ifndef CURRENCY_H
 #define	CURRENCY_H
 
+class Currency;
+
 #include <string>
 
 class Currency {
 public:
-	const std::string name;
+	std::string name;
 
-	std::string getName() { return this->name; }
 	Currency(const std::string &name);
 
 	virtual ~Currency();
 private:
-	void setName(const std::string name) { this->name = name; }
 };
 
 #endif	/* CURRENCY_H */

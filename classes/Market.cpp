@@ -4,44 +4,39 @@
  *
  * Created on December 6, 2013, 5:44 PM
  */
-
-#include <vector>
-#include <iostream>
-
 #include "Market.h"
-#include "Transaction.h"
 
-Market::Market(const Currency &currency1, const Currency &currency2) {
+Market::Market(Currency *currency1, Currency *currency2) {
 	this->currency1 = currency1;
 	this->currency2 = currency2;
 	Market::addMarket(this);
 }
 
-bool Market::addOrder(const Order &addOrder) {
+bool Market::addOrder(Order *addOrder) {
 	Transaction	*curTrans;
-	Order		&sellOrder;
-	Order		&buyOrder;
-	std::vector<Order> &orderList;
+	Order		*sellOrder;
+	Order		*buyOrder;
+	std::vector<Order *> *orderList;
 	bool		reversed = false;
 	if(addOrder->direction == SELL) {
 		reversed = true;
-		orderList = &(this->buyOrders);
+		orderList = &this->buyOrders;
 	} else {
-		buyOrder = &addOrder;
-		orderList = &(this->sellOrders);
+		buyOrder = addOrder;
+		orderList = &this->sellOrders;
 	}
 	while(addOrder->price >= (sellOrder = orderList->back())->price) {
 		if(reversed) {
 			// TODO: This is fugly as shit, please redo it.
-			Order &tmpOrder;
-			tmpOrder = &sellOrder;
-			sellOrder = &buyOrder;
-			buyOrder = &sellOrder;
+			Order *tmpOrder;
+			tmpOrder = sellOrder;
+			sellOrder = buyOrder;
+			buyOrder = sellOrder;
 		}
-		int qty = (sellOrder.qty > buyOrder->qty) ? buyOrder->qty : sellOrder.qty;
-		curTrans = new Transaction(buyOrder, sellOrder, sellOrder.price, qty);
-		if(!curTrans.save()){
-			cout << "Error processing transaction between the following order id, " << buyOrder->order_id << " and " << sellOrder->order_id << endl;
+		int qty = (sellOrder->qty > buyOrder->qty) ? buyOrder->qty : sellOrder->qty;
+		curTrans = new Transaction(buyOrder, sellOrder, sellOrder->price, qty);
+		if(!curTrans->save()){
+			std::cout << "Error processing transaction between the following order id, " << buyOrder->order_id << " and " << sellOrder->order_id << std::endl;
 			delete curTrans;
 			return false;
 		}
@@ -55,53 +50,53 @@ bool Market::addOrder(const Order &addOrder) {
 			buyOrder->status = PARTIAL;
 		}
 		if(buyOrder->save()) {
-			cout << "Error processing save order after transaction create " << buyOrder->order_id << endl;
+			std::cout << "Error processing save order after transaction create " << buyOrder->order_id << std::endl;
 			return false;
 		}
-		buyOrder->addTransaction(curTrans);
+		buyOrder->addTransaction(*curTrans);
 		if(needsRemoved) {
 			delete buyOrder;
 		}
 
-		needsRemoved = false
-		sellOrder.qty -= qty;
-		if(sellOrder.qty <= 0) {
-			sellOrder.status = FILLED;
+		needsRemoved = false;
+		sellOrder->qty -= qty;
+		if(sellOrder->qty <= 0) {
+			sellOrder->status = FILLED;
 			needsRemoved = true;
 		} else {
-			sellOrder.status = PARTIAL;
+			sellOrder->status = PARTIAL;
 		}
-		if(sellOrder.save()) {
-			cout << "Error processing save order after transaction create " << sellOrder.order_id << endl;
+		if(sellOrder->save()) {
+			std::cout << "Error processing save order after transaction create " << sellOrder->order_id << std::endl;
 			return false;
 		}
-		sellOrder.addTransaction(curTrans);
+		sellOrder->addTransaction(*curTrans);
 		if(needsRemoved) {
 			delete buyOrder;
 		}
 		delete curTrans;
 	}
+	return true;
 }
-void Market::removeOrder(const Order &order) {
-	std::vector<Order> &orderList;
+void Market::removeOrder(Order *order) {
+	std::vector<Order *> *orderList;
 	if(order->direction == SELL) {
 		orderList = &this->sellOrders;
 	} else {
 		orderList = &this->buyOrders;
 	}
-	for(std::vector<Order>::size_type i = orderList.size() - 1; i != 0; i--) {
-		if(orderList[i] == order) {
-			orderList.erase(i);
+	for(std::vector<Order>::size_type i = orderList->size() - 1; i != 0; i--) {
+		if(&orderList->at(i) == &order) {
+			orderList->erase(orderList->begin() + i);
 			return;
 		}
 	}
 }
-static void Market::addMarket(const Market &market) {
-	this->markets->push_back(market);
-}
-
 
 Market::~Market() {
 
 }
 
+void Market::addMarket(Market *market) {
+	//Market::markets.push_back(market);
+}
