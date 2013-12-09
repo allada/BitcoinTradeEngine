@@ -16,6 +16,9 @@ Order::Order(Market *market, const uint32_t account_id, const order_type_t direc
 	this->price		= price;
 	this->timestamp	= timestamp;
 	this->status	= status;
+	if(this->status == ACTIVE || this->status == PARTIAL) {
+		Order::orders.Insert(this->order_id)->value = this;
+	}
 }
 Order::Order(Market *market, const uint32_t account_id, const order_type_t direction, const uint64_t qty, const uint64_t price) {
 	this->market	= market;
@@ -26,16 +29,13 @@ Order::Order(Market *market, const uint32_t account_id, const order_type_t direc
 	this->price		= price;
 	this->timestamp	= std::time(0);
 	this->status	= ACTIVE;
-}
-void Order::init(){
-	if(this->status == ACTIVE || this->status == PARTIAL)
-		Order::orders->Insert(this->order_id)->value = this;
+	Order::orders.Insert(this->order_id)->value = this;
 }
 void Order::addTransaction(Transaction &trans) {
 
 }
 bool Order::remove() {
-	Order::orders->Delete(this->order_id);
+	Order::orders.Delete(this->order_id);
 	return true;
 }
 bool Order::save() {
@@ -48,8 +48,20 @@ Order::~Order() {
 }
 
 Order *Order::getOrder(int order_id){
-	return Order::orders->Lookup(order_id)->value;
+	return Order::orders.Lookup(order_id)->value;
 };
 uint32_t Order::getNextId() {
 	return Order::next_id++;
+}
+void Order::lock() {
+	pthread_mutex_lock(&Order::mutex);
+}
+void Order::unlock() {
+	pthread_mutex_unlock(&Order::mutex);
+}
+void Order::init() {
+	pthread_mutex_init(&Order::mutex, NULL);
+}
+void Order::unInit() {
+	pthread_mutex_destroy(&Order::mutex);
 }

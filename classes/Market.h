@@ -23,8 +23,9 @@ class Order;
 
 class Market {
 public:
-	static std::vector<Market> markets;
+	static std::vector<Market *> markets;
 
+	u_int16_t market_id;
 	Currency *currency1;
 	Currency *currency2;
 	std::vector<Order *> buyOrders;
@@ -33,7 +34,7 @@ public:
 	u_int64_t sellOrderGroups[ORDER_SORT_GROUP_COUNT];
 
 	std::string getName() { return this->currency1->name + '_' + this->currency2->name; }
-	Market(Currency *currency1, Currency *currency2);
+	Market(u_int8_t market_id, Currency *currency1, Currency *currency2);
 
 	bool addOrder(Order *addOrder);
 	void removeOrder(Order *order);
