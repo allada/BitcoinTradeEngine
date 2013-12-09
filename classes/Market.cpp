@@ -23,9 +23,11 @@ bool Market::addOrder(Order *addOrder) {
 	if(addOrder->direction == SELL) {
 		reversed = true;
 		orderList = &this->buyOrders;
+		this->sellOrders.push_back(addOrder);
 	} else {
 		buyOrder = addOrder;
 		orderList = &this->sellOrders;
+		this->buyOrders.push_back(addOrder);
 	}
 	if(orderList->size()){
 		sellOrder = orderList->back();
@@ -46,22 +48,6 @@ bool Market::addOrder(Order *addOrder) {
 			}
 			bool needsRemoved = false;
 
-			buyOrder->qty -= qty;
-			if(buyOrder->qty <= 0) {
-				buyOrder->status = FILLED;
-				needsRemoved = true;
-			} else {
-				buyOrder->status = PARTIAL;
-			}
-			if(buyOrder->save()) {
-				std::cout << "Error processing save order after transaction create " << buyOrder->order_id << std::endl;
-				return false;
-			}
-			buyOrder->addTransaction(*curTrans);
-			if(needsRemoved) {
-				delete buyOrder;
-			}
-
 			needsRemoved = false;
 			sellOrder->qty -= qty;
 			if(sellOrder->qty <= 0) {
@@ -70,15 +56,36 @@ bool Market::addOrder(Order *addOrder) {
 			} else {
 				sellOrder->status = PARTIAL;
 			}
-			if(sellOrder->save()) {
+			if(!sellOrder->save()) {
 				std::cout << "Error processing save order after transaction create " << sellOrder->order_id << std::endl;
 				return false;
 			}
 			sellOrder->addTransaction(*curTrans);
 			if(needsRemoved) {
-				delete buyOrder;
+				// Removal from vector done in destructor
+				delete sellOrder;
 			}
+
+			buyOrder->qty -= qty;
+			if(buyOrder->qty <= 0) {
+				buyOrder->status = FILLED;
+				needsRemoved = true;
+			} else {
+				buyOrder->status = PARTIAL;
+			}
+			if(!buyOrder->save()) {
+				std::cout << "Error processing save order after transaction create " << buyOrder->order_id << std::endl;
+				return false;
+			}
+			buyOrder->addTransaction(*curTrans);
+			if(needsRemoved) {
+				// Removal from vector done in destructor
+				delete buyOrder;
+				break;
+			}
+
 			delete curTrans;
+			sellOrder = orderList->back();
 		}
 	}
 	return true;
@@ -86,12 +93,12 @@ bool Market::addOrder(Order *addOrder) {
 void Market::removeOrder(Order *order) {
 	std::vector<Order *> *orderList;
 	if(order->direction == SELL) {
-		orderList = &this->sellOrders;
+		orderList = &(this->sellOrders);
 	} else {
-		orderList = &this->buyOrders;
+		orderList = &(this->buyOrders);
 	}
-	for(std::vector<Order>::size_type i = orderList->size() - 1; i != 0; i--) {
-		if(&orderList->at(i) == &order) {
+	for (unsigned int i = orderList->size(); i-- > 0; ) {
+		if(orderList->at(i)->order_id == order->order_id) {
 			orderList->erase(orderList->begin() + i);
 			return;
 		}

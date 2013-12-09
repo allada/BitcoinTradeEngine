@@ -39,7 +39,7 @@ SocketServer::SocketServer(const char *path) {
 		perror("ERROR binding stream socket");
 		return;
 	}
-	if(listen(this->sock, 5) < 0){
+	if(listen(this->sock, 1) < 0){
 		perror("Error listening to socket");
 		return;
 	}
@@ -55,29 +55,25 @@ void SocketServer::start() {
 	}
 	FD_ZERO(&fd_master);
     FD_ZERO(&fd);
-    FD_SET(sock, &fd_master);
+    FD_SET(this->sock, &fd_master);
 
     tv.tv_sec = 1;
     tv.tv_usec = 0;
+	memcpy(&fd, &fd_master, sizeof(fd_master));
 	running = true;
 	int sel;
-	while(running && (sel = select(0, &fd, NULL, NULL, &tv)) >= 0) {
-
-		try{
+	while(running && (sel = select(this->sock + 1, &fd, NULL, NULL, &tv)) >= 0) {
+		if(sel) {
 			requestSock = accept(this->sock, NULL, NULL);
-		}catch(int e){
-			perror("ERROR on accept");
-			running = false;
-			continue;
+			if(requestSock < 0) {
+				perror("ERROR on accept");
+				running = false;
+				continue;
+			}
+			ClientRequest *cr = new ClientRequest(requestSock);
+			cr->start();
 		}
-		if(requestSock < 0) {
-			perror("ERROR on accept");
-			running = false;
-			continue;
-		}
-		ClientRequest *cr = new ClientRequest(requestSock);
-		cr->start();
-		fd = fd_master;
+		memcpy(&fd, &fd_master, sizeof(fd_master));
 	}
 	close(this->sock);
 	unlink(master_path);

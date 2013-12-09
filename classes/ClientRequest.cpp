@@ -36,12 +36,12 @@ ClientRequest::ClientRequest(int requestSocket) {
 }
 
 void *ClientRequest::threadFn() {
-	unsigned char buffer[19];
+	unsigned char buffer[20];
 	int n, len = 0;
 
-	bzero(buffer,19);
+	bzero(buffer,20);
 	do {
-		len += n = read(this->socket, buffer, 19);
+		len += n = read(this->socket, buffer, 20);
 		if(n < 0) {
 			perror("ERROR reading from socket");
 			exit(1);
@@ -52,7 +52,7 @@ void *ClientRequest::threadFn() {
 		usleep(10);
 	} while(true);
 
-	bool type = buffer[0] & 0x80;
+	bool type = (buffer[0] >> 0x7) & 0x1;
 	uint16_t market_id = buffer[0] & ~0x80;
 	if(market_id > Market::markets.size() - 1) {
 		perror("No market with that id");
@@ -97,7 +97,7 @@ void *ClientRequest::threadFn() {
 		price <<= 8;
 		price |= buffer[18];
 
-		order_type_t direction = (order_type_t) (buffer[19] & 0x1);
+		order_type_t direction = (order_type_t) ((buffer[19] >> 7) & 0x1);
 
 		Order::lock();
 
