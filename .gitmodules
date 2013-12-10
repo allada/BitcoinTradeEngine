@@ -1,0 +1,3 @@
+[submodule "libraries/cpp-driver"]
+	path = libraries/cpp-driver
+	url = git@github.com:datastax/cpp-driver.git
