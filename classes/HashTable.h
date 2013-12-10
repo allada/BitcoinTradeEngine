@@ -13,7 +13,7 @@
 typedef unsigned int uint32_t;
 typedef unsigned long long uint64_t;
 
-inline uint32_t upper_power_of_two(uint32_t v)
+inline uint64_t upper_power_of_two(uint64_t v)
 {
     v--;
     v |= v >> 1;
@@ -21,19 +21,20 @@ inline uint32_t upper_power_of_two(uint32_t v)
     v |= v >> 4;
     v |= v >> 8;
     v |= v >> 16;
+    v |= v >> 32;
     v++;
     return v;
 }
 
 // from code.google.com/p/smhasher/wiki/MurmurHash3
-inline uint32_t integerHash(uint32_t h)
+inline uint64_t integerHash(uint64_t k)
 {
-	h ^= h >> 16;
-	h *= 0x85ebca6b;
-	h ^= h >> 13;
-	h *= 0xc2b2ae35;
-	h ^= h >> 16;
-	return h;
+	k ^= k >> 33;
+	k *= 0xff51afd7ed558ccd;
+	k ^= k >> 33;
+	k *= 0xc4ceb9fe1a85ec53;
+	k ^= k >> 33;
+	return k;
 }
 
 //----------------------------------------------
@@ -53,31 +54,31 @@ class HashTable
 public:
     struct Cell
     {
-        uint32_t key;
+        uint64_t key;
         Order *value;
     };
 
 private:
     Cell* m_cells;
-    uint32_t m_arraySize;
+    uint64_t m_arraySize;
     uint32_t m_population;
     bool m_zeroUsed;
     Cell m_zeroCell;
 
-    void Repopulate(uint32_t desiredSize);
+    void Repopulate(uint64_t desiredSize);
 
 public:
-    HashTable(uint32_t initialSize = 8);
+    HashTable(uint64_t initialSize = 8);
     ~HashTable();
 
     // Basic operations
-    Cell* Lookup(uint32_t key);
-    Cell* Insert(uint32_t key);
+    Cell* Lookup(uint64_t key);
+    Cell* Insert(uint64_t key);
     void Delete(Cell* cell);
     void Clear();
     void Compact();
 
-    void Delete(uint32_t key)
+    void Delete(uint64_t key)
     {
         Cell* value = Lookup(key);
         if (value)

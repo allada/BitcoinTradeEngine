@@ -28,6 +28,7 @@
  * CANCEL ORDER
  * 0 1 2 3 4 5 6 7|0 1 2 3 4 5 6 7|0 1 2 3 4 5 6 7|0 1 2 3 4 5 6 7
  * T|   MARKET          MARKET    |              ORDER NUM           ... + 0
+ * ...                                                               ... + 32
  * ...                            |* * * * * * * * * * * * * * * *       + 160
  *
  */
@@ -102,19 +103,39 @@ void *ClientRequest::threadFn() {
 		Order::lock();
 
 		Order *o = new Order(market, account_num, direction, qty, price);
-		char order_id[4] = {
+		/*
+		char order_id[8] = {
+			(char) ((o->order_id >> 56) && 0xFF),
+			(char) ((o->order_id >> 48) && 0xFF)
+			(char) ((o->order_id >> 40) & 0xFF),
+			(char) ((o->order_id >> 32) & 0xFF),
 			(char) ((o->order_id >> 24) & 0xFF),
 			(char) ((o->order_id >> 16) & 0xFF),
 			(char) ((o->order_id >> 8) & 0xFF),
 			(char) (o->order_id & 0xFF)
-		};
+		};*/
 		market->addOrder(o);
 
 		Order::unlock();
 
-		write(this->socket, order_id, sizeof(char) * 4);
+		write(this->socket, (void *) &o->order_id, sizeof(uint64_t));
 	} else {
 		// Is Cancel Order
+		uint64_t order_id = buffer[0];
+		order_id <<= 8;
+		order_id |= buffer[1];
+		order_id <<= 8;
+		order_id |= buffer[2];
+		order_id <<= 8;
+		order_id |= buffer[3];
+		order_id <<= 8;
+		order_id |= buffer[4];
+		order_id <<= 8;
+		order_id |= buffer[5];
+		order_id <<= 8;
+		order_id |= buffer[6];
+		order_id <<= 8;
+		order_id |= buffer[7];
 	}
 	close(this->socket);
 	this->socket = 0;

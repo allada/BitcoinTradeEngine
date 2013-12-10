@@ -15,7 +15,7 @@
 //----------------------------------------------
 //  HashTable::HashTable
 //----------------------------------------------
-HashTable::HashTable(uint32_t initialSize)
+HashTable::HashTable(uint64_t initialSize)
 {
     // Initialize regular cells
     m_arraySize = initialSize;
@@ -42,7 +42,7 @@ HashTable::~HashTable()
 //----------------------------------------------
 //  HashTable::Lookup
 //----------------------------------------------
-HashTable::Cell* HashTable::Lookup(uint32_t key)
+HashTable::Cell* HashTable::Lookup(uint64_t key)
 {
     if (key)
     {
@@ -67,7 +67,7 @@ HashTable::Cell* HashTable::Lookup(uint32_t key)
 //----------------------------------------------
 //  HashTable::Insert
 //----------------------------------------------
-HashTable::Cell* HashTable::Insert(uint32_t key)
+HashTable::Cell* HashTable::Insert(uint64_t key)
 {
     if (key)
     {
@@ -178,7 +178,7 @@ void HashTable::Compact()
 //----------------------------------------------
 //  HashTable::Repopulate
 //----------------------------------------------
-void HashTable::Repopulate(uint32_t desiredSize)
+void HashTable::Repopulate(uint64_t desiredSize)
 {
     assert((desiredSize & (desiredSize - 1)) == 0);   // Must be a power of 2
     assert(m_population * 4  <= desiredSize * 3);

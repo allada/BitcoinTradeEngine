@@ -7,7 +7,7 @@
 
 #include "Order.h"
 
-Order::Order(Market *market, const uint32_t account_id, const order_type_t direction, const uint64_t qty, const uint64_t price, const uint32_t order_id, const uint32_t timestamp, const order_status_t status) {
+Order::Order(Market *market, const uint32_t account_id, const order_type_t direction, const uint64_t qty, const uint64_t price, const uint64_t order_id, const uint32_t timestamp, const order_status_t status) {
 	this->order_id	= order_id;
 	this->account_id=account_id;
 	this->market	= market;
