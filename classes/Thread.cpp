@@ -41,11 +41,11 @@ Thread::~Thread()
 
 int Thread::start()
 {
-    int result = 0;//pthread_create(&m_tid, NULL, runThread, this);
+    int result = pthread_create(&m_tid, NULL, runThread, this);
     if (result == 0) {
         m_running = 1;
     }
-	this->threadFn();
+	//this->threadFn();
     return result;
 }
 

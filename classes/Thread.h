@@ -37,10 +37,9 @@ class Thread
     pthread_t self();
 
     virtual void* threadFn() = 0;
-
+    int        m_running;
   private:
     pthread_t  m_tid;
-    int        m_running;
     int        m_detached;
 };
 

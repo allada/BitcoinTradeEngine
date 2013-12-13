@@ -24,6 +24,7 @@ public:
 	Transaction(Order *buyOrder, Order *sellOrder, uint64_t price, uint64_t qty);
 	virtual ~Transaction();
 
+	bool process();
 	bool save();
 
 	/*static Transaction getTransaction(int transaction_id){

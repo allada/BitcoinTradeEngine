@@ -10,6 +10,16 @@
 #include "Market.h"
 #include <unistd.h>
 
+#if defined(__linux__)
+#  include <endian.h>
+#elif defined(__FreeBSD__) || defined(__NetBSD__)
+#  include <sys/endian.h>
+#elif defined(__OpenBSD__)
+#  include <sys/types.h>
+#  define be64toh(x) betoh64(x)
+#elif defined(__APPLE__)
+#  define be64toh(x) x
+#endif
 #define ADD_ORDER 0
 #define REMOVE_ORDER 1
 /*
@@ -47,7 +57,7 @@ void *ClientRequest::threadFn() {
 			perror("ERROR reading from socket");
 			exit(1);
 		}
-		if(len >= 19) {
+		if(len >= 20) {
 			break;
 		}
 		usleep(10);
@@ -103,22 +113,26 @@ void *ClientRequest::threadFn() {
 		Order::lock();
 
 		Order *o = new Order(market, account_num, direction, qty, price);
-		/*
 		char order_id[8] = {
-			(char) ((o->order_id >> 56) && 0xFF),
-			(char) ((o->order_id >> 48) && 0xFF)
+			(char) ((o->order_id >> 56) & 0xFF),
+			(char) ((o->order_id >> 48) & 0xFF),
 			(char) ((o->order_id >> 40) & 0xFF),
 			(char) ((o->order_id >> 32) & 0xFF),
 			(char) ((o->order_id >> 24) & 0xFF),
 			(char) ((o->order_id >> 16) & 0xFF),
 			(char) ((o->order_id >> 8) & 0xFF),
 			(char) (o->order_id & 0xFF)
-		};*/
+		};
 		market->addOrder(o);
-
+		delete o;
 		Order::unlock();
-
-		write(this->socket, (void *) &o->order_id, sizeof(uint64_t));
+		try{
+			//std::printf("%llu\n", order_id);
+			write(this->socket, order_id, 8);
+		} catch (int e) {
+			perror("Some socket error probably?\n");
+			// do nothing maybe socket closed?
+		}
 	} else {
 		// Is Cancel Order
 		uint64_t order_id = buffer[0];
@@ -143,7 +157,7 @@ void *ClientRequest::threadFn() {
 }
 
 ClientRequest::~ClientRequest() {
-	printf("Closing");
+	//printf("Closing");
 	if(this->socket) {
 		close(this->socket);
 	}

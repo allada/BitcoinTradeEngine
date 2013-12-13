@@ -10,24 +10,78 @@ Market::Market(u_int8_t market_id, Currency *currency1, Currency *currency2) {
 	this->market_id = market_id;
 	this->currency1 = currency1;
 	this->currency2 = currency2;
+	this->buyOrders = new std::vector<Order *>;
+	this->sellOrders = new std::vector<Order *>;
 	Market::addMarket(this);
 }
 
+bool _addSellOrder(Market *market, Order *sellOrder) {
+	Transaction *curTrans;
+	Order *buyOrder;
+	market->sellOrders->push_back(sellOrder);
+	if(market->buyOrders->size()) {
+		for(buyOrder = market->buyOrders->back(); buyOrder && (buyOrder->price >= sellOrder->price); buyOrder = market->buyOrders->back()) {
+			int qty = (buyOrder->qty > sellOrder->qty)?sellOrder->qty:buyOrder->qty;
+			curTrans = new Transaction(buyOrder, sellOrder, buyOrder->price, qty);
+			if(!curTrans->process()) {
+				std::cout << "Error processing transaction between the following order id, " << buyOrder->order_id << " and " << sellOrder->order_id << std::endl;
+				delete curTrans;
+				return false;
+			}
+			curTrans->process();
+			delete curTrans;
+			delete buyOrder;
+		}
+	}
+	return true;
+}
+bool _addBuyOrder(Market *market, Order *buyOrder) {
+	Transaction *curTrans;
+	Order *sellOrder;
+	market->buyOrders->push_back(buyOrder);
+	if(market->sellOrders->size()) {
+		for(buyOrder = market->sellOrders->back(); buyOrder && (buyOrder->price >= sellOrder->price); buyOrder = market->sellOrders->back()) {
+			int qty = (buyOrder->qty > sellOrder->qty)?sellOrder->qty:buyOrder->qty;
+			curTrans = new Transaction(buyOrder, sellOrder, sellOrder->price, qty);
+			if(!curTrans->process()) {
+				std::cout << "Error processing transaction between the following order id, " << buyOrder->order_id << " and " << sellOrder->order_id << std::endl;
+				delete curTrans;
+				return false;
+			}
+			curTrans->process();
+			delete curTrans;
+			delete sellOrder;
+		}
+	}
+	return true;
+}
 bool Market::addOrder(Order *addOrder) {
+	if(addOrder->direction == SELL) {
+		if(!_addSellOrder(this, addOrder)) {
+			std::cout << "Error Adding order " << addOrder->order_id << std::endl;;
+			return false;
+		}
+	} else {
+		if(!_addSellOrder(this, addOrder)) {
+			std::cout << "Error Adding order " << addOrder->order_id << std::endl;;
+			return false;
+		}
+	}
+	return true;
+	/*
 	Transaction	*curTrans;
 	Order		*sellOrder;
-	Order		*buyOrder;
+	Order		*buyOrder = addOrder;
 	std::vector<Order *> *orderList;
 	bool		reversed = false;
 
 	if(addOrder->direction == SELL) {
 		reversed = true;
-		orderList = &this->buyOrders;
-		this->sellOrders.push_back(addOrder);
+		orderList = this->buyOrders;
+		this->sellOrders->push_back(addOrder);
 	} else {
-		buyOrder = addOrder;
-		orderList = &this->sellOrders;
-		this->buyOrders.push_back(addOrder);
+		orderList = this->sellOrders;
+		this->buyOrders->push_back(addOrder);
 	}
 	if(orderList->size()){
 		sellOrder = orderList->back();
@@ -63,7 +117,10 @@ bool Market::addOrder(Order *addOrder) {
 			sellOrder->addTransaction(*curTrans);
 			if(needsRemoved) {
 				// Removal from vector done in destructor
-				delete sellOrder;
+				// Do not remove if it's going to be returned
+				if(addOrder->order_id != sellOrder->order_id) {
+					delete sellOrder;
+				}
 			}
 
 			buyOrder->qty -= qty;
@@ -80,8 +137,10 @@ bool Market::addOrder(Order *addOrder) {
 			buyOrder->addTransaction(*curTrans);
 			if(needsRemoved) {
 				// Removal from vector done in destructor
-				delete buyOrder;
-				break;
+				// Do not remove if it's going to be returned
+				if(addOrder->order_id != buyOrder->order_id) {
+					delete buyOrder;
+				}
 			}
 
 			delete curTrans;
@@ -89,13 +148,14 @@ bool Market::addOrder(Order *addOrder) {
 		}
 	}
 	return true;
+	 */
 }
 void Market::removeOrder(Order *order) {
 	std::vector<Order *> *orderList;
 	if(order->direction == SELL) {
-		orderList = &(this->sellOrders);
+		orderList = this->sellOrders;
 	} else {
-		orderList = &(this->buyOrders);
+		orderList = this->buyOrders;
 	}
 	for (unsigned int i = orderList->size(); i-- > 0; ) {
 		if(orderList->at(i)->order_id == order->order_id) {
@@ -106,7 +166,8 @@ void Market::removeOrder(Order *order) {
 }
 
 Market::~Market() {
-
+	delete this->buyOrders;
+	delete this->buyOrders;
 }
 
 void Market::addMarket(Market *market) {

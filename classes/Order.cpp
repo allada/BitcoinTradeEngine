@@ -31,7 +31,7 @@ Order::Order(Market *market, const uint32_t account_id, const order_type_t direc
 	this->status	= ACTIVE;
 	Order::orders.Insert(this->order_id)->value = this;
 }
-void Order::addTransaction(Transaction &trans) {
+void Order::addTransaction(Transaction *trans) {
 
 }
 bool Order::remove() {

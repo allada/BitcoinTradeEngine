@@ -6,7 +6,6 @@
  */
 
 #include "SocketServer.h"
-#include "ClientRequest.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -39,7 +38,7 @@ SocketServer::SocketServer(const char *path) {
 		perror("ERROR binding stream socket");
 		return;
 	}
-	if(listen(this->sock, 1) < 0){
+	if(listen(this->sock, 31) < 0){
 		perror("Error listening to socket");
 		return;
 	}
@@ -71,7 +70,18 @@ void SocketServer::start() {
 				continue;
 			}
 			ClientRequest *cr = new ClientRequest(requestSock);
+			this->instances.push_back(cr);
 			cr->start();
+			cr->detach();
+			ClientRequest *instance;
+			for (unsigned int i = this->instances.size(); i-- > 0; ) {
+			//for(std::vector<ClientRequest *>::size_type i = 0; i != this->instances.size(); i++) {
+			//for(std::vector<ClientRequest *>::iterator it = this->instances.begin(); it != this->instances.end(); ++it) {
+				if(!this->instances.at(i)->m_running){
+					delete this->instances.at(i);
+					this->instances.erase(this->instances.begin() + i);
+				}
+			}
 		}
 		memcpy(&fd, &fd_master, sizeof(fd_master));
 	}

@@ -28,8 +28,8 @@ public:
 	u_int16_t market_id;
 	Currency *currency1;
 	Currency *currency2;
-	std::vector<Order *> buyOrders;
-	std::vector<Order *> sellOrders;
+	std::vector<Order *> *buyOrders;
+	std::vector<Order *> *sellOrders;
 	u_int64_t buyOrderGroups[ORDER_SORT_GROUP_COUNT];
 	u_int64_t sellOrderGroups[ORDER_SORT_GROUP_COUNT];
 

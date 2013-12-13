@@ -7,7 +7,15 @@
 
 #ifndef ORDER_H
 #define	ORDER_H
-
+/*
+#include <boost/asio.hpp>
+#include <cql/cql.hpp>
+#include <cql/cql_connection.hpp>
+#include <cql/cql_session.hpp>
+#include <cql/cql_cluster.hpp>
+#include <cql/cql_builder.hpp>
+#include <cql/cql_result.hpp>
+ */
 enum order_type_t {
 	SELL = 0,
 	BUY
@@ -48,7 +56,7 @@ public:
 	Order(Market *market, const uint32_t account_id, const order_type_t direction, const uint64_t qty, const uint64_t price);
 	virtual ~Order();
 
-	void addTransaction(Transaction &trans);
+	void addTransaction(Transaction *trans);
 	bool remove();
 	bool save();
 

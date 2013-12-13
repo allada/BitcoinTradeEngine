@@ -13,6 +13,8 @@
 #include <sys/un.h>
 #include <vector>
 #include "Thread.h"
+#include "ClientRequest.h"
+
 
 class SocketServer{
 public:
@@ -20,7 +22,7 @@ public:
 	static void exit(int signum);
 
 	void start();
-	static std::vector<SocketServer *> instances;
+	static std::vector<ClientRequest *> instances;
 
 	virtual ~SocketServer();
 private:
