@@ -124,8 +124,11 @@ void *ClientRequest::threadFn() {
 			(char) (o->order_id & 0xFF)
 		};
 		market->addOrder(o);
-		delete o;
+		if(!o->qty) {
+			delete o;
+		}
 		Order::unlock();
+
 		try{
 			//std::printf("%llu\n", order_id);
 			write(this->socket, order_id, 8);
@@ -153,6 +156,7 @@ void *ClientRequest::threadFn() {
 	}
 	close(this->socket);
 	this->socket = 0;
+	this->m_running = false;
 	return (void *) NULL;
 }
 

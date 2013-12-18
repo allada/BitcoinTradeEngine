@@ -75,10 +75,10 @@ function run_random_order() {
 	$order->account_num = mt_rand(0, mt_getrandmax());
 	$order->qty = mt_rand(0, mt_getrandmax());
 	$order->price = mt_rand(0, mt_getrandmax());
-	$order->direction = mt_rand(0, 1); // Sell
+	$order->direction = mt_rand(0, 1);
 	return $order->send($time);
 }
-$num_processes = 25;
+$num_processes = 1;
 $threads = array();
 $start = microtime(true);
 $last_check = 0;

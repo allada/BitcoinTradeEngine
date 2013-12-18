@@ -63,6 +63,7 @@ void SocketServer::start() {
 	int sel;
 	while(running && (sel = select(this->sock + 1, &fd, NULL, NULL, &tv)) >= 0) {
 		if(sel) {
+			//printf("%u\n", sel);
 			requestSock = accept(this->sock, NULL, NULL);
 			if(requestSock < 0) {
 				perror("ERROR on accept");
@@ -71,12 +72,13 @@ void SocketServer::start() {
 			}
 			ClientRequest *cr = new ClientRequest(requestSock);
 			this->instances.push_back(cr);
-			cr->start();
-			cr->detach();
-			ClientRequest *instance;
+			try{
+			cr->start(PTHREAD_CREATE_DETACHED);
+			//cr->detach();
+			}catch(int e){
+				// maybe show error
+			}
 			for (unsigned int i = this->instances.size(); i-- > 0; ) {
-			//for(std::vector<ClientRequest *>::size_type i = 0; i != this->instances.size(); i++) {
-			//for(std::vector<ClientRequest *>::iterator it = this->instances.begin(); it != this->instances.end(); ++it) {
 				if(!this->instances.at(i)->m_running){
 					delete this->instances.at(i);
 					this->instances.erase(this->instances.begin() + i);

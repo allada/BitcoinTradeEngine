@@ -31,7 +31,7 @@ class Thread
     Thread();
     virtual ~Thread();
 
-    int start();
+    int start(const int flags);
     int join();
     int detach();
     pthread_t self();

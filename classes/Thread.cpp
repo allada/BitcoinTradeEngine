@@ -22,6 +22,7 @@
 
 #include "Thread.h"
 
+
 static void* runThread(void* arg)
 {
     return ((Thread*)arg)->threadFn();
@@ -39,9 +40,14 @@ Thread::~Thread()
     }
 }
 
-int Thread::start()
+int Thread::start(const int flags)
 {
-    int result = pthread_create(&m_tid, NULL, runThread, this);
+	pthread_attr_t attr;
+	pthread_attr_init(&attr);
+	if(flags) {
+		pthread_attr_setdetachstate(&attr, flags);
+	}
+    int result = pthread_create(&m_tid, &attr, runThread, this);
     if (result == 0) {
         m_running = 1;
     }
