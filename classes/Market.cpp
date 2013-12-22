@@ -44,7 +44,7 @@ bool _addSellOrder(Market *market, Order *sellOrder) {
 	Order *buyOrder;
 	market->addSellOrder(sellOrder);
 	if(market->buyOrders->size()) {
-		for(buyOrder = market->buyOrders->back(); buyOrder && sellOrder->qty && (buyOrder->price >= sellOrder->price); buyOrder = market->buyOrders->back()) {
+		for(buyOrder = market->buyOrders->back(); market->buyOrders->size() && sellOrder->qty != 0 && (buyOrder->price >= sellOrder->price); buyOrder = market->buyOrders->back()) {
 			uint64_t qty = (buyOrder->qty > sellOrder->qty)?sellOrder->qty:buyOrder->qty;
 			curTrans = new Transaction(buyOrder, sellOrder, buyOrder->price, qty);
 			if(!curTrans->process()) {
@@ -52,18 +52,11 @@ bool _addSellOrder(Market *market, Order *sellOrder) {
 				delete curTrans;
 				return false;
 			}
-			//curTrans->process();
 			delete curTrans;
 			if(buyOrder->qty == 0) {
 				delete buyOrder;
 			}
 		}
-	}
-	for(uint32_t j = market->sellOrders->size(); j-- > 0;) {
-		printf("S %llu\n", market->sellOrders->at(j)->price);
-	}
-	for(uint32_t j = market->buyOrders->size(); j-- > 0;) {
-		printf("B %llu\n", market->buyOrders->at(j)->price);
 	}
 	return true;
 }
@@ -72,7 +65,7 @@ bool _addBuyOrder(Market *market, Order *buyOrder) {
 	Order *sellOrder;
 	market->addBuyOrder(buyOrder);
 	if(market->sellOrders->size()) {
-		for(sellOrder = market->sellOrders->back(); sellOrder && buyOrder->qty && (buyOrder->price >= sellOrder->price); sellOrder = market->sellOrders->back()) {
+		for(sellOrder = market->sellOrders->back(); market->sellOrders->size() && buyOrder->qty != 0 && (buyOrder->price >= sellOrder->price); sellOrder = market->sellOrders->back()) {
 			uint64_t qty = (buyOrder->qty > sellOrder->qty)?sellOrder->qty:buyOrder->qty;
 			curTrans = new Transaction(buyOrder, sellOrder, sellOrder->price, qty);
 			if(!curTrans->process()) {
@@ -80,7 +73,6 @@ bool _addBuyOrder(Market *market, Order *buyOrder) {
 				delete curTrans;
 				return false;
 			}
-			//curTrans->process();
 			delete curTrans;
 			if(sellOrder->qty == 0) {
 				delete sellOrder;
@@ -89,8 +81,23 @@ bool _addBuyOrder(Market *market, Order *buyOrder) {
 	}
 	return true;
 }
+std::time_t lasttime;
 bool Market::addOrder(Order *addOrder) {
-	printf("Num of orders: %u\n", this->sellOrders->size() + this->buyOrders->size() );
+	if(!lasttime){
+		lasttime = std::time(0);
+	}
+	if(lasttime + 2 < std::time(0)){
+		printf("Num of orders: %u\n", this->sellOrders->size() + this->buyOrders->size() );
+		lasttime = std::time(0);
+		/*
+		for(uint32_t j = 0; j < addOrder->market->sellOrders->size(); j++) {
+			printf("S %llu -> %u\n", addOrder->market->sellOrders->at(j)->price, addOrder->market->sellOrders->at(j)->qty);
+		}
+
+		for(uint32_t j = addOrder->market->buyOrders->size(); j-- > 0;) {
+			printf("B %llu -> %u\n", addOrder->market->buyOrders->at(j)->price, addOrder->market->buyOrders->at(j)->qty);
+		}*/
+	}
 	if(addOrder->direction == SELL) {
 		if(!_addSellOrder(this, addOrder)) {
 			std::cout << "Error Adding order " << addOrder->order_id << std::endl;;
@@ -117,6 +124,8 @@ void Market::removeOrder(Order *order) {
 			return;
 		}
 	}
+	// should never reach here
+	return;
 }
 
 Market::~Market() {

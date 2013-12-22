@@ -27,7 +27,6 @@ Transaction::Transaction(Order *buyOrder, Order *sellOrder, uint64_t price, uint
 #define CHANGE_ORDER_STATUS(order) \
 	if(!order->qty) { \
 		order->status = FILLED; \
-		order->market->removeOrder(this->buyOrder); \
 	} else if(order->status != PARTIAL) { \
 		order->status = PARTIAL; \
 	}

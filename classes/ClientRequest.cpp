@@ -124,9 +124,11 @@ void *ClientRequest::threadFn() {
 			(char) (o->order_id & 0xFF)
 		};
 		market->addOrder(o);
-		if(!o->qty) {
+		if(o->qty == 0) {
 			delete o;
 		}
+		/*
+		*/
 		Order::unlock();
 
 		try{

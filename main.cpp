@@ -39,7 +39,7 @@ int main(int argc, char** argv) {
 	new Market(LTC_USD, ltc, usd);
 	new Market(BTC_LTC, btc, ltc);
 
-	SocketServer *server = new SocketServer("/tmp/BitcoinTradeEngine.sock");
+	SocketServer *server = new SocketServer(1197);
 	server->start();
 	Order::unInit();
 	return 0;

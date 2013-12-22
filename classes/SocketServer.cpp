@@ -11,9 +11,9 @@
 #include <string.h>
 #include <unistd.h>
 #include <signal.h>
+#include <arpa/inet.h>
 bool running = false;
 bool runnable = false;
-char *master_path;
 void SocketServer::exit(int signum) {
 	if(signum == SIGTERM) {
 		printf("Destructing SocketServers\n");
@@ -23,22 +23,24 @@ void SocketServer::exit(int signum) {
 	return;
 }
 
-SocketServer::SocketServer(const char *path) {
-	struct sockaddr_un server;
+SocketServer::SocketServer(int port) {
+	struct sockaddr_in server;
+	memset(&server,0,sizeof(server));
 	signal(SIGTERM, SocketServer::exit);
-	this->sock = socket(AF_UNIX, SOCK_STREAM, 0);
+	this->sock = socket(AF_INET, SOCK_STREAM, 0);
+	server.sin_family = AF_INET;
+	server.sin_port = htons(port);
+	server.sin_addr.s_addr = inet_addr("127.0.0.1");
+
 	if(this->sock < 0) {
         perror("ERROR opening socket");
         return;
     }
-	server.sun_family = AF_UNIX;
-	strcpy(server.sun_path, path);
-	master_path = (char *) path;
-	if(bind(this->sock, (struct sockaddr *) &server, sizeof(struct sockaddr_un)) < 0) {
+	if(bind(this->sock, (struct sockaddr*) &server, sizeof(server)) < 0) {
 		perror("ERROR binding stream socket");
 		return;
 	}
-	if(listen(this->sock, 31) < 0){
+	if(listen(this->sock, 20) < 0){
 		perror("Error listening to socket");
 		return;
 	}
@@ -73,8 +75,7 @@ void SocketServer::start() {
 			ClientRequest *cr = new ClientRequest(requestSock);
 			this->instances.push_back(cr);
 			try{
-			cr->start(PTHREAD_CREATE_DETACHED);
-			//cr->detach();
+				cr->start(PTHREAD_CREATE_DETACHED);
 			}catch(int e){
 				// maybe show error
 			}
@@ -88,11 +89,12 @@ void SocketServer::start() {
 		memcpy(&fd, &fd_master, sizeof(fd_master));
 	}
 	close(this->sock);
-	unlink(master_path);
 	this->sock = 0;
 }
 
 SocketServer::~SocketServer() {
-
+	try{
+		close(this->sock);
+	}catch (int e){}
 }
 

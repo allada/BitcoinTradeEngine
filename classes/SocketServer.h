@@ -18,7 +18,7 @@
 
 class SocketServer{
 public:
-	SocketServer(const char *path);
+	SocketServer(int port);
 	static void exit(int signum);
 
 	void start();

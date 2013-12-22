@@ -50,7 +50,7 @@ class Order {
 		return $o;
 	}
 	public function send(&$duration = null){
-		$sock = stream_socket_client('unix:///tmp/BitcoinTradeEngine.sock', $errno, $errstr);
+		$sock = stream_socket_client('tcp://127.0.0.1:1197', $errno, $errstr);
 		if(!$sock){
 			echo "no socket\n";
 			exit;
@@ -70,25 +70,40 @@ class Order {
 		return (((int) current($data)) << 32) | ((int) next($data)) ;
 	}
 }
+$max_amount = 10000000;
+$cur_amt = 0;
+$direction = mt_rand(0, 1);
+$qty = 0;
 function run_random_order() {
+	global $qty, $cur_amt, $max_amount, $direction;
 	$order = new Order;
+	$order->direction = $direction;
 	$order->account_num = mt_rand(0, mt_getrandmax());
-	$order->qty = mt_rand(0, mt_getrandmax());
-	$order->price = mt_rand(0, mt_getrandmax());
-	$order->direction = mt_rand(0, 1);
+	$order->qty = $qty;
+	$order->price = mt_rand(1, 100);
+	//$order->qty = mt_rand(1, $cur_amt);//mt_rand(0, mt_getrandmax());
+	//$order->price = mt_rand(0, 100);//mt_rand(0, mt_getrandmax());
 	return $order->send($time);
 }
-$num_processes = 1;
+$num_processes = 4;
 $threads = array();
 $start = microtime(true);
 $last_check = 0;
 $count = 0;
 while(true) {
 	while(count($threads) < $num_processes) {
+		$direction = mt_rand(0, 1);
+		$qty = mt_rand(1, 1000+$cur_amt);
+		if(!$direction){
+			//sell
+			$cur_amt += $cur_amt;
+		}else{
+			$cur_amt -= $cur_amt;
+		}
 		$pid = pcntl_fork();
-		$threads[$pid] = null;
 		if($pid) {
 			// Parent
+			$threads[$pid] = null;
 			continue;
 		} else {
 			run_random_order();
