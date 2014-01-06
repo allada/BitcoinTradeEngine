@@ -30,9 +30,9 @@ inline uint64_t upper_power_of_two(uint64_t v)
 inline uint64_t integerHash(uint64_t k)
 {
 	k ^= k >> 33;
-	k *= 0xff51afd7ed558ccd;
+	k *= 0xff51afd7ed558ccdull;
 	k ^= k >> 33;
-	k *= 0xc4ceb9fe1a85ec53;
+	k *= 0xc4ceb9fe1a85ec53ull;
 	k ^= k >> 33;
 	return k;
 }

@@ -2,8 +2,7 @@
 // Build-time configuration
 //---------------------------------------------------
 
-#include "hashtable.h"
-#include "util.h"
+#include "HashTable.h"
 #include <assert.h>
 #include <memory.h>
 

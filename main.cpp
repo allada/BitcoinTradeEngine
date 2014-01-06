@@ -18,7 +18,6 @@
 
 HashTable Order::orders;
 std::vector<Market *> Market::markets;
-std::vector<ClientRequest *> SocketServer::instances;
 uint32_t Order::next_id = 33654319;
 pthread_mutex_t Order::mutex;
 uint64_t Transaction::next_id = 122;

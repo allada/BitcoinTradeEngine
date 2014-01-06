@@ -1,46 +1,90 @@
-/*
-   thread.h
-
-   Header for a Java style thread class in C++.
-
-   ------------------------------------------
-
-   Copyright © 2013 [Vic Hargrave - http://vichargrave.com]
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-       http://www.apache.org/licenses/LICENSE-2.0
-
-   Unless required by applicable law or agreed to in writing, software
-   distributed under the License is distributed on an "AS IS" BASIS,
-   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-   See the License for the specific language governing permissions and
-   limitations under the License.
-*/
-
-#ifndef __thread_h__
-#define __thread_h__
+#ifndef _H_THREADPOOL
+#define _H_THREADPOOL
 
 #include <pthread.h>
 
-class Thread
+#include <deque>
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+const int DEFAULT_POOL_SIZE = 10;
+const int STARTED = 0;
+const int STOPPED = 1;
+
+class Mutex
 {
-  public:
-    Thread();
-    virtual ~Thread();
-
-    int start(const int flags);
-    int join();
-    int detach();
-    pthread_t self();
-
-    virtual void* threadFn() = 0;
-    int        m_running;
-  private:
-    pthread_t  m_tid;
-    int        m_detached;
+public:
+  Mutex()
+  {
+    pthread_mutex_init(&m_lock, NULL);
+    is_locked = false;
+  }
+  ~Mutex()
+  {
+    if (is_locked) {
+      unlock(); // FIXME: is this correct? Can a thread unlock a mutex locked by another thread?
+    }
+    pthread_mutex_destroy(&m_lock);
+  }
+  void lock()
+  {
+    pthread_mutex_lock(&m_lock);
+    is_locked = true;
+  }
+  void unlock()
+  {
+    is_locked = false; // do it BEFORE unlocking to avoid race condition
+    pthread_mutex_unlock(&m_lock);
+  }
+  pthread_mutex_t* get_mutex_ptr()
+  {
+    return &m_lock;
+  }
+private:
+  pthread_mutex_t m_lock;
+  volatile bool is_locked;
 };
 
-#endif
+class CondVar
+{
+public:
+  CondVar() { pthread_cond_init(&m_cond_var, NULL); }
+  ~CondVar() { pthread_cond_destroy(&m_cond_var); }
+  void wait(pthread_mutex_t* mutex) {pthread_cond_wait(&m_cond_var, mutex); }
+  void signal() { pthread_cond_signal(&m_cond_var); }
+  void broadcast() { pthread_cond_broadcast(&m_cond_var); }
+private:
+  pthread_cond_t m_cond_var;
+};
+
+//template<class TClass>
+class Thread
+{
+public:
+  Thread();
+  virtual ~Thread();
+  virtual void run();
+};
+
+class ThreadPool
+{
+public:
+  ThreadPool();
+  ThreadPool(int pool_size);
+  ~ThreadPool();
+  int initialize_threadpool();
+  int destroy_threadpool();
+  void* execute_thread();
+  int add_task(Thread* task);
+private:
+  int m_pool_size;
+  Mutex m_task_mutex;
+  CondVar m_task_cond_var;
+  std::vector<pthread_t> m_threads; // storage for threads
+  std::deque<Thread*> m_tasks;
+  volatile int m_pool_state;
+};
+
+#endif /* _H_THREADPOOL */

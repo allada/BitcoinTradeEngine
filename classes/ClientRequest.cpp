@@ -9,6 +9,7 @@
 #include "Order.h"
 #include "Market.h"
 #include <unistd.h>
+#include <stdio.h>
 
 #if defined(__linux__)
 #  include <endian.h>
@@ -42,11 +43,7 @@
  * ...                            |* * * * * * * * * * * * * * * *       + 160
  *
  */
-ClientRequest::ClientRequest(int requestSocket) {
-	this->socket = requestSocket;
-}
-
-void *ClientRequest::threadFn() {
+void ClientRequest::run() {
 	unsigned char buffer[20];
 	int n, len = 0;
 
@@ -55,7 +52,11 @@ void *ClientRequest::threadFn() {
 		len += n = read(this->socket, buffer, 20);
 		if(n < 0) {
 			perror("ERROR reading from socket");
-			exit(1);
+			return;
+		}
+		if(n == 0){
+			perror("Socket closed by client");
+			return;
 		}
 		if(len >= 20) {
 			break;
@@ -67,7 +68,7 @@ void *ClientRequest::threadFn() {
 	uint16_t market_id = buffer[0] & ~0x80;
 	if(market_id > Market::markets.size() - 1) {
 		perror("No market with that id");
-		exit(1);
+		return;
 	}
 	Market *market = Market::markets[market_id];
 	if(type == ADD_ORDER) {
@@ -127,8 +128,7 @@ void *ClientRequest::threadFn() {
 		if(o->qty == 0) {
 			delete o;
 		}
-		/*
-		*/
+
 		Order::unlock();
 
 		try{
@@ -158,14 +158,12 @@ void *ClientRequest::threadFn() {
 	}
 	close(this->socket);
 	this->socket = 0;
-	this->m_running = false;
-	return (void *) NULL;
+	return;
 }
 
 ClientRequest::~ClientRequest() {
-	//printf("Closing");
 	if(this->socket) {
 		close(this->socket);
 	}
+	this->socket = 0;
 }
-

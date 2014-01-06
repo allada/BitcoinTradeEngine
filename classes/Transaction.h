@@ -10,6 +10,7 @@
 class Transaction;
 
 #include "Order.h"
+#include "HashTable.h"
 
 class Transaction {
 public:

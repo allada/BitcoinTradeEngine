@@ -37,6 +37,7 @@ class Order;
 #include "Transaction.h"
 #include "Market.h"
 #include "HashTable.h"
+#include "DB.h"
 class HashTable;
 
 class Order {

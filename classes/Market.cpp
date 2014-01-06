@@ -6,6 +6,7 @@
  */
 #include "Market.h"
 #include <sys/param.h>
+#include <stdio.h>
 
 Market::Market(u_int8_t market_id, Currency *currency1, Currency *currency2) {
 	this->market_id		= market_id;

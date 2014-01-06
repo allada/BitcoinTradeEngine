@@ -50,7 +50,8 @@ class Order {
 		return $o;
 	}
 	public function send(&$duration = null){
-		$sock = stream_socket_client('tcp://127.0.0.1:1197', $errno, $errstr);
+		$sock = stream_socket_client('tcp://162.243.57.72:1197', $errno, $errstr);
+		//$sock = stream_socket_client('tcp://localhost:1197', $errno, $errstr);
 		if(!$sock){
 			echo "no socket\n";
 			exit;
@@ -85,7 +86,7 @@ function run_random_order() {
 	//$order->price = mt_rand(0, 100);//mt_rand(0, mt_getrandmax());
 	return $order->send($time);
 }
-$num_processes = 4;
+$num_processes = 31;
 $threads = array();
 $start = microtime(true);
 $last_check = 0;

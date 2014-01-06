@@ -22,7 +22,6 @@ public:
 	static void exit(int signum);
 
 	void start();
-	static std::vector<ClientRequest *> instances;
 
 	virtual ~SocketServer();
 private:
