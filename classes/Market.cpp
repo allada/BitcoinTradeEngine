@@ -44,10 +44,12 @@ bool _addSellOrder(Market *market, Order *sellOrder) {
 	Transaction *curTrans;
 	Order *buyOrder;
 	market->addSellOrder(sellOrder);
+	bool trans_made = false;
 	if(market->buyOrders->size()) {
 		for(buyOrder = market->buyOrders->back(); market->buyOrders->size() && sellOrder->qty != 0 && (buyOrder->price >= sellOrder->price); buyOrder = market->buyOrders->back()) {
 			uint64_t qty = (buyOrder->qty > sellOrder->qty)?sellOrder->qty:buyOrder->qty;
 			curTrans = new Transaction(buyOrder, sellOrder, buyOrder->price, qty);
+			trans_made = true;
 			if(!curTrans->process()) {
 				std::cout << "Error processing transaction between the following order id, " << buyOrder->order_id << " and " << sellOrder->order_id << std::endl;
 				delete curTrans;
@@ -59,16 +61,21 @@ bool _addSellOrder(Market *market, Order *sellOrder) {
 			}
 		}
 	}
+	if(!trans_made) {
+		sellOrder->save();
+	}
 	return true;
 }
 bool _addBuyOrder(Market *market, Order *buyOrder) {
 	Transaction *curTrans;
 	Order *sellOrder;
 	market->addBuyOrder(buyOrder);
+	bool trans_made = false;
 	if(market->sellOrders->size()) {
 		for(sellOrder = market->sellOrders->back(); market->sellOrders->size() && buyOrder->qty != 0 && (buyOrder->price >= sellOrder->price); sellOrder = market->sellOrders->back()) {
 			uint64_t qty = (buyOrder->qty > sellOrder->qty)?sellOrder->qty:buyOrder->qty;
 			curTrans = new Transaction(buyOrder, sellOrder, sellOrder->price, qty);
+			trans_made = true;
 			if(!curTrans->process()) {
 				std::cout << "Error processing transaction between the following order id, " << buyOrder->order_id << " and " << sellOrder->order_id << std::endl;
 				delete curTrans;
@@ -80,6 +87,9 @@ bool _addBuyOrder(Market *market, Order *buyOrder) {
 			}
 		}
 	}
+	if(!trans_made) {
+		buyOrder->save();
+	}
 	return true;
 }
 std::time_t lasttime;
@@ -89,6 +99,7 @@ bool Market::addOrder(Order *addOrder) {
 	}
 	if(lasttime + 2 < std::time(0)){
 		printf("Num of orders: %u\n", this->sellOrders->size() + this->buyOrders->size() );
+		//printf("Total orders processed: %u\n", Order::next_id);
 		lasttime = std::time(0);
 		/*
 		for(uint32_t j = 0; j < addOrder->market->sellOrders->size(); j++) {

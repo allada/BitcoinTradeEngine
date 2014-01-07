@@ -7,13 +7,15 @@
 
 #include "Order.h"
 #include "mongo/client/dbclient.h"
+#include "DB.h"
 
-Order::Order(Market *market, const uint32_t account_id, const order_type_t direction, const uint64_t qty, const uint64_t price, const uint64_t order_id, const uint32_t timestamp, const order_status_t status) {
+Order::Order(Market *market, const uint32_t account_id, const order_type_t direction, const uint64_t qty, const uint64_t orig_qty, const uint64_t price, const uint64_t order_id, const uint32_t timestamp, const order_status_t status) {
 	this->order_id	= order_id;
 	this->account_id=account_id;
 	this->market	= market;
 	this->direction	= direction;
 	this->qty		= qty;
+	this->orig_qty	= orig_qty;
 	this->price		= price;
 	this->timestamp	= timestamp;
 	this->status	= status;
@@ -21,12 +23,13 @@ Order::Order(Market *market, const uint32_t account_id, const order_type_t direc
 		Order::orders.Insert(this->order_id)->value = this;
 	}
 }
-Order::Order(Market *market, const uint32_t account_id, const order_type_t direction, const uint64_t qty, const uint64_t price) {
+Order::Order(Market *market, const uint32_t account_id, const order_type_t direction, const uint64_t qty, const uint64_t orig_qty, const uint64_t price) {
 	this->market	= market;
 	this->order_id	= Order::getNextId();
 	this->account_id=account_id;
 	this->direction	= direction;
 	this->qty		= qty;
+	this->orig_qty	= orig_qty;
 	this->price		= price;
 	this->timestamp	= std::time(0);
 	this->status	= ACTIVE;
@@ -51,7 +54,7 @@ Order::~Order() {
 Order *Order::getOrder(int order_id){
 	return Order::orders.Lookup(order_id)->value;
 };
-uint32_t Order::getNextId() {
+uint64_t Order::getNextId() {
 	return Order::next_id++;
 }
 void Order::lock() {

@@ -11,6 +11,7 @@
 #include "classes/Market.h"
 #include "classes/Transaction.h"
 #include "classes/SocketServer.h"
+#include "classes/DB.h"
 
 #define BTC_USD 0
 #define LTC_USD 1
@@ -18,9 +19,9 @@
 
 HashTable Order::orders;
 std::vector<Market *> Market::markets;
-uint32_t Order::next_id = 33654319;
+uint64_t Order::next_id = 1;
 pthread_mutex_t Order::mutex;
-uint64_t Transaction::next_id = 122;
+uint64_t Transaction::next_id = 1;
 
 using namespace std;
 
@@ -37,6 +38,8 @@ int main(int argc, char** argv) {
 	new Market(BTC_USD, usd, btc);
 	new Market(LTC_USD, ltc, usd);
 	new Market(BTC_LTC, btc, ltc);
+
+	DB::loadOrders();
 
 	SocketServer *server = new SocketServer(1197);
 	server->start();

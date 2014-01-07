@@ -9,9 +9,12 @@
 #define	DB_H
 #include "mongo/client/dbclient.h"
 #include "Order.h"
+#include "Transaction.h"
 class DB {
 public:
 	static bool saveOrder(Order *order);
+	static bool saveTransaction(Transaction *transaction);
+	static void loadOrders();
 private:
 	DB();
 };

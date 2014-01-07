@@ -113,7 +113,7 @@ void ClientRequest::run() {
 
 		Order::lock();
 
-		Order *o = new Order(market, account_num, direction, qty, price);
+		Order *o = new Order(market, account_num, direction, qty, qty, price);
 		char order_id[8] = {
 			(char) ((o->order_id >> 56) & 0xFF),
 			(char) ((o->order_id >> 48) & 0xFF),

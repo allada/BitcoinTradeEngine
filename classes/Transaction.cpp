@@ -37,8 +37,6 @@ bool Transaction::process() {
 	}
 	this->buyOrder->addTransaction(this);
 	this->sellOrder->addTransaction(this);
-	//printf("Buy was %u, sell was %u\n", this->buyOrder->qty, this->sellOrder->qty);
-	//printf("Buy now %u, sell now %u\n", this->buyOrder->qty - this->qty, this->sellOrder->qty - this->qty);
 
 	this->buyOrder->qty -= this->qty;
 	this->sellOrder->qty -= this->qty;
@@ -51,7 +49,7 @@ bool Transaction::process() {
 	return true;
 }
 bool Transaction::save() {
-	return true;
+	return DB::saveTransaction(this);
 }
 Transaction::~Transaction() {
 }

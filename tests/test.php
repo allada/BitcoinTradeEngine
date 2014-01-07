@@ -50,8 +50,8 @@ class Order {
 		return $o;
 	}
 	public function send(&$duration = null){
-		$sock = stream_socket_client('tcp://162.243.57.72:1197', $errno, $errstr);
-		//$sock = stream_socket_client('tcp://localhost:1197', $errno, $errstr);
+		//$sock = stream_socket_client('tcp://162.243.57.72:1197', $errno, $errstr);
+		$sock = stream_socket_client('tcp://localhost:1197', $errno, $errstr);
 		if(!$sock){
 			echo "no socket\n";
 			exit;
@@ -79,9 +79,9 @@ function run_random_order() {
 	global $qty, $cur_amt, $max_amount, $direction;
 	$order = new Order;
 	$order->direction = $direction;
-	$order->account_num = mt_rand(0, mt_getrandmax());
+	$order->account_num = mt_rand(0, 0xFFFFFF);
 	$order->qty = $qty;
-	$order->price = mt_rand(1, 100);
+	$order->price = mt_rand(1, 0x7FFFFFFFFFFFFFFF);
 	//$order->qty = mt_rand(1, $cur_amt);//mt_rand(0, mt_getrandmax());
 	//$order->price = mt_rand(0, 100);//mt_rand(0, mt_getrandmax());
 	return $order->send($time);
@@ -94,7 +94,7 @@ $count = 0;
 while(true) {
 	while(count($threads) < $num_processes) {
 		$direction = mt_rand(0, 1);
-		$qty = mt_rand(1, 1000+$cur_amt);
+		$qty = mt_rand(1, 0x7FFFFFFFFFFFFFFF);
 		if(!$direction){
 			//sell
 			$cur_amt += $cur_amt;

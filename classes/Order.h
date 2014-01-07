@@ -47,14 +47,15 @@ public:
 	Market			*market;
 	order_type_t	direction;
 	uint64_t		qty;
+	uint64_t		orig_qty;
 	uint64_t		price;
 	uint32_t		timestamp;
 	order_status_t	status;
 
 	std::vector<Transaction *>	transactions;
 
-	Order(Market *market, const uint32_t account_id, const order_type_t direction, const uint64_t qty, const uint64_t price, const uint64_t order_id, const uint32_t timestamp, const order_status_t status);
-	Order(Market *market, const uint32_t account_id, const order_type_t direction, const uint64_t qty, const uint64_t price);
+	Order(Market *market, const uint32_t account_id, const order_type_t direction, const uint64_t qty, const uint64_t orig_qty, const uint64_t price, const uint64_t order_id, const uint32_t timestamp, const order_status_t status);
+	Order(Market *market, const uint32_t account_id, const order_type_t direction, const uint64_t qty, const uint64_t orig_qty, const uint64_t price);
 	virtual ~Order();
 
 	void addTransaction(Transaction *trans);
@@ -68,9 +69,9 @@ public:
 	static void unInit();
 
 	static HashTable orders;
-	static uint32_t next_id;
+	static uint64_t next_id;
 	static pthread_mutex_t mutex;
-	static uint32_t getNextId();
+	static uint64_t getNextId();
 private:
 };
 

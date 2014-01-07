@@ -27,12 +27,12 @@ public:
 
 	bool process();
 	bool save();
+	static uint64_t next_id;
 
 	/*static Transaction getTransaction(int transaction_id){
 
 	}*/
 private:
-	static uint64_t next_id;
 	static uint64_t getNextId();
 	void init();
 };
