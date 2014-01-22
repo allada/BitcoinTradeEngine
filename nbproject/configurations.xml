@@ -64,7 +64,7 @@
           <incDir>
             <pElem>.</pElem>
             <pElem>libraries/mongo/src/boost</pElem>
-            <pElem>libraries/mongo/src</pElem>
+            <pElem>libraries/mongo/src/third_party</pElem>
           </incDir>
         </ccTool>
         <linkerTool>
