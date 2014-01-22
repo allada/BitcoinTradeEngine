@@ -11,12 +11,24 @@
 #include "Market.h"
 #include "Transaction.h"
 
+#ifndef __APPLE__
+#include "/root/btct.password"
+#endif
+
 mongo::DBClientConnection &getInstance() {
 	static mongo::DBClientConnection instance;
 	static bool ran = false;
 	if(!ran) {
 		ran = true;
+#ifdef __APPLE__
 		instance.connect("localhost");
+#else
+		instance.connect(MONGO_IP);
+		instance->auth(BSON("user" << MONGO_USER <<
+                "userSource" << MONGO_SOURCE <<
+                "pwd" << MONGO_PASSWORD <<
+                "mechanism" << MONGO_MECHANISM));
+#endif
 	}
 	return instance;
 }
