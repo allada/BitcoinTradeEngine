@@ -63,7 +63,7 @@
           <commandlineTool>g++</commandlineTool>
           <incDir>
             <pElem>.</pElem>
-            <pElem>libraries/mongo/src</pElem>
+            <pElem>libraries/mongo/client</pElem>
           </incDir>
         </ccTool>
         <linkerTool>
