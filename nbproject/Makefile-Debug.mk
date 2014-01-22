@@ -82,52 +82,52 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/bitcointradeengine: ${OBJECTFILES}
 ${OBJECTDIR}/classes/ClientRequest.o: classes/ClientRequest.cpp 
 	${MKDIR} -p ${OBJECTDIR}/classes
 	${RM} $@.d
-	$(COMPILE.cc) -g -I. -Ilibraries/mongo/client -MMD -MP -MF $@.d -o ${OBJECTDIR}/classes/ClientRequest.o classes/ClientRequest.cpp
+	$(COMPILE.cc) -g -I. -Ilibraries/mongo -MMD -MP -MF $@.d -o ${OBJECTDIR}/classes/ClientRequest.o classes/ClientRequest.cpp
 
 ${OBJECTDIR}/classes/Currency.o: classes/Currency.cpp 
 	${MKDIR} -p ${OBJECTDIR}/classes
 	${RM} $@.d
-	$(COMPILE.cc) -g -I. -Ilibraries/mongo/client -MMD -MP -MF $@.d -o ${OBJECTDIR}/classes/Currency.o classes/Currency.cpp
+	$(COMPILE.cc) -g -I. -Ilibraries/mongo -MMD -MP -MF $@.d -o ${OBJECTDIR}/classes/Currency.o classes/Currency.cpp
 
 ${OBJECTDIR}/classes/DB.o: classes/DB.cpp 
 	${MKDIR} -p ${OBJECTDIR}/classes
 	${RM} $@.d
-	$(COMPILE.cc) -g -I. -Ilibraries/mongo/client -MMD -MP -MF $@.d -o ${OBJECTDIR}/classes/DB.o classes/DB.cpp
+	$(COMPILE.cc) -g -I. -Ilibraries/mongo -MMD -MP -MF $@.d -o ${OBJECTDIR}/classes/DB.o classes/DB.cpp
 
 ${OBJECTDIR}/classes/HashTable.o: classes/HashTable.cpp 
 	${MKDIR} -p ${OBJECTDIR}/classes
 	${RM} $@.d
-	$(COMPILE.cc) -g -I. -Ilibraries/mongo/client -MMD -MP -MF $@.d -o ${OBJECTDIR}/classes/HashTable.o classes/HashTable.cpp
+	$(COMPILE.cc) -g -I. -Ilibraries/mongo -MMD -MP -MF $@.d -o ${OBJECTDIR}/classes/HashTable.o classes/HashTable.cpp
 
 ${OBJECTDIR}/classes/Market.o: classes/Market.cpp 
 	${MKDIR} -p ${OBJECTDIR}/classes
 	${RM} $@.d
-	$(COMPILE.cc) -g -I. -Ilibraries/mongo/client -MMD -MP -MF $@.d -o ${OBJECTDIR}/classes/Market.o classes/Market.cpp
+	$(COMPILE.cc) -g -I. -Ilibraries/mongo -MMD -MP -MF $@.d -o ${OBJECTDIR}/classes/Market.o classes/Market.cpp
 
 ${OBJECTDIR}/classes/Order.o: classes/Order.cpp 
 	${MKDIR} -p ${OBJECTDIR}/classes
 	${RM} $@.d
-	$(COMPILE.cc) -g -I. -Ilibraries/mongo/client -MMD -MP -MF $@.d -o ${OBJECTDIR}/classes/Order.o classes/Order.cpp
+	$(COMPILE.cc) -g -I. -Ilibraries/mongo -MMD -MP -MF $@.d -o ${OBJECTDIR}/classes/Order.o classes/Order.cpp
 
 ${OBJECTDIR}/classes/SocketServer.o: classes/SocketServer.cpp 
 	${MKDIR} -p ${OBJECTDIR}/classes
 	${RM} $@.d
-	$(COMPILE.cc) -g -I. -Ilibraries/mongo/client -MMD -MP -MF $@.d -o ${OBJECTDIR}/classes/SocketServer.o classes/SocketServer.cpp
+	$(COMPILE.cc) -g -I. -Ilibraries/mongo -MMD -MP -MF $@.d -o ${OBJECTDIR}/classes/SocketServer.o classes/SocketServer.cpp
 
 ${OBJECTDIR}/classes/Thread.o: classes/Thread.cpp 
 	${MKDIR} -p ${OBJECTDIR}/classes
 	${RM} $@.d
-	$(COMPILE.cc) -g -I. -Ilibraries/mongo/client -MMD -MP -MF $@.d -o ${OBJECTDIR}/classes/Thread.o classes/Thread.cpp
+	$(COMPILE.cc) -g -I. -Ilibraries/mongo -MMD -MP -MF $@.d -o ${OBJECTDIR}/classes/Thread.o classes/Thread.cpp
 
 ${OBJECTDIR}/classes/Transaction.o: classes/Transaction.cpp 
 	${MKDIR} -p ${OBJECTDIR}/classes
 	${RM} $@.d
-	$(COMPILE.cc) -g -I. -Ilibraries/mongo/client -MMD -MP -MF $@.d -o ${OBJECTDIR}/classes/Transaction.o classes/Transaction.cpp
+	$(COMPILE.cc) -g -I. -Ilibraries/mongo -MMD -MP -MF $@.d -o ${OBJECTDIR}/classes/Transaction.o classes/Transaction.cpp
 
 ${OBJECTDIR}/main.o: main.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -I. -Ilibraries/mongo/client -MMD -MP -MF $@.d -o ${OBJECTDIR}/main.o main.cpp
+	$(COMPILE.cc) -g -I. -Ilibraries/mongo -MMD -MP -MF $@.d -o ${OBJECTDIR}/main.o main.cpp
 
 # Subprojects
 .build-subprojects:
