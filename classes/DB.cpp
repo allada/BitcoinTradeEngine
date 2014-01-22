@@ -24,7 +24,7 @@ mongo::DBClientConnection &getInstance() {
 		instance.connect("localhost");
 #else
 		instance.connect(MONGO_IP);
-		instance->auth(BSON("user" << MONGO_USER <<
+		instance.auth(BSON("user" << MONGO_USER <<
                 "userSource" << MONGO_SOURCE <<
                 "pwd" << MONGO_PASSWORD <<
                 "mechanism" << MONGO_MECHANISM));
