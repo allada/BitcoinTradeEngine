@@ -63,16 +63,18 @@
           <commandlineTool>g++</commandlineTool>
           <incDir>
             <pElem>.</pElem>
-            <pElem>libraries/mongo</pElem>
+            <pElem>libraries/mongo/src</pElem>
           </incDir>
         </ccTool>
         <linkerTool>
+          <output>${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/bitcointradeengine</output>
           <linkerLibItems>
             <linkerLibStdlibItem>PosixThreads</linkerLibStdlibItem>
             <linkerLibFileItem>/usr/local/lib/libboost_filesystem-mt.dylib</linkerLibFileItem>
             <linkerLibFileItem>/usr/local/lib/libboost_system-mt.dylib</linkerLibFileItem>
             <linkerLibFileItem>/usr/local/lib/libboost_program_options-mt.dylib</linkerLibFileItem>
             <linkerLibFileItem>/usr/local/lib/libboost_thread-mt.dylib</linkerLibFileItem>
+            <linkerLibFileItem>/usr/local/lib/libboost_date_time-mt.dylib</linkerLibFileItem>
           </linkerLibItems>
           <commandLine>-lmongoclient</commandLine>
         </linkerTool>
