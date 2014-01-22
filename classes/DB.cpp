@@ -24,12 +24,8 @@ mongo::DBClientConnection &getInstance() {
 		instance.connect("localhost");
 #else
 		instance.connect(MONGO_IP);
-		mongo::BSONObjBuilder obj;
-		obj.append("user",       MONGO_USER);
-		obj.append("userSource", MONGO_SOURCE);
-		obj.append("pwd",        MONGO_PASSWORD);
-		obj.append("mechanism",  MONGO_MECHANISM);
-		instance.auth(obj.obj());
+		std::string errmsg;
+		instance.auth(MONGO_SOURCE, MONGO_USER, MONGO_PASSWORD, errmsg);
 #endif
 	}
 	return instance;

@@ -70,13 +70,12 @@
           <output>${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/bitcointradeengine</output>
           <linkerLibItems>
             <linkerLibStdlibItem>PosixThreads</linkerLibStdlibItem>
-            <linkerLibFileItem>/usr/local/lib/libboost_filesystem-mt.dylib</linkerLibFileItem>
-            <linkerLibFileItem>/usr/local/lib/libboost_system-mt.dylib</linkerLibFileItem>
-            <linkerLibFileItem>/usr/local/lib/libboost_program_options-mt.dylib</linkerLibFileItem>
-            <linkerLibFileItem>/usr/local/lib/libboost_thread-mt.dylib</linkerLibFileItem>
-            <linkerLibFileItem>/usr/local/lib/libboost_date_time-mt.dylib</linkerLibFileItem>
+            <linkerLibLibItem>boost_filesystem-mt</linkerLibLibItem>
+            <linkerLibLibItem>boost_program_options-mt</linkerLibLibItem>
+            <linkerLibLibItem>boost_system-mt</linkerLibLibItem>
+            <linkerLibLibItem>boost_thread-mt</linkerLibLibItem>
+            <linkerLibLibItem>mongoclient</linkerLibLibItem>
           </linkerLibItems>
-          <commandLine>-lmongoclient</commandLine>
         </linkerTool>
       </compileType>
       <item path="classes/ClientRequest.cpp" ex="false" tool="1" flavor2="0">

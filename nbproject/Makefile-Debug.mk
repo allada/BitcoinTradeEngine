@@ -61,25 +61,15 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=-lpthread /usr/local/lib/libboost_filesystem-mt.dylib /usr/local/lib/libboost_system-mt.dylib /usr/local/lib/libboost_program_options-mt.dylib /usr/local/lib/libboost_thread-mt.dylib /usr/local/lib/libboost_date_time-mt.dylib
+LDLIBSOPTIONS=-lpthread -lboost_filesystem-mt -lboost_program_options-mt -lboost_system-mt -lboost_thread-mt -lmongoclient
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
 	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/bitcointradeengine
 
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/bitcointradeengine: /usr/local/lib/libboost_filesystem-mt.dylib
-
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/bitcointradeengine: /usr/local/lib/libboost_system-mt.dylib
-
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/bitcointradeengine: /usr/local/lib/libboost_program_options-mt.dylib
-
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/bitcointradeengine: /usr/local/lib/libboost_thread-mt.dylib
-
-${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/bitcointradeengine: /usr/local/lib/libboost_date_time-mt.dylib
-
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/bitcointradeengine: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
-	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/bitcointradeengine ${OBJECTFILES} ${LDLIBSOPTIONS} -lmongoclient
+	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/bitcointradeengine ${OBJECTFILES} ${LDLIBSOPTIONS}
 
 ${OBJECTDIR}/classes/ClientRequest.o: classes/ClientRequest.cpp 
 	${MKDIR} -p ${OBJECTDIR}/classes
