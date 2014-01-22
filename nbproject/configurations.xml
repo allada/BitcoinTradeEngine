@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="89">
+  <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <logicalFolder name="HeaderFiles"
+                   displayName="Header Files"
+                   projectFiles="true">
+    </logicalFolder>
+    <logicalFolder name="ResourceFiles"
+                   displayName="Resource Files"
+                   projectFiles="true">
+    </logicalFolder>
+    <logicalFolder name="SourceFiles"
+                   displayName="Source Files"
+                   projectFiles="true">
+      <logicalFolder name="f1" displayName="classes" projectFiles="true">
+        <itemPath>classes/ClientRequest.cpp</itemPath>
+        <itemPath>classes/ClientRequest.h</itemPath>
+        <itemPath>classes/Currency.cpp</itemPath>
+        <itemPath>classes/Currency.h</itemPath>
+        <itemPath>classes/DB.cpp</itemPath>
+        <itemPath>classes/DB.h</itemPath>
+        <itemPath>classes/HashTable.cpp</itemPath>
+        <itemPath>classes/HashTable.h</itemPath>
+        <itemPath>classes/Market.cpp</itemPath>
+        <itemPath>classes/Market.h</itemPath>
+        <itemPath>classes/Order.cpp</itemPath>
+        <itemPath>classes/Order.h</itemPath>
+        <itemPath>classes/SocketServer.cpp</itemPath>
+        <itemPath>classes/SocketServer.h</itemPath>
+        <itemPath>classes/Thread.cpp</itemPath>
+        <itemPath>classes/Thread.h</itemPath>
+        <itemPath>classes/Transaction.cpp</itemPath>
+        <itemPath>classes/Transaction.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="f2" displayName="tests" projectFiles="true">
+        <itemPath>tests/test.php</itemPath>
+      </logicalFolder>
+      <itemPath>main.cpp</itemPath>
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>Makefile</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="Debug" type="1">
+      <toolsSet>
+        <remote-sources-mode>LOCAL_SOURCES</remote-sources-mode>
+        <compilerSet>default</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <compileType>
+        <cTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </cTool>
+        <ccTool>
+          <commandlineTool>g++</commandlineTool>
+          <incDir>
+            <pElem>.</pElem>
+            <pElem>libraries/mongo/src</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <linkerLibItems>
+            <linkerLibStdlibItem>PosixThreads</linkerLibStdlibItem>
+            <linkerLibFileItem>/usr/local/lib/libboost_filesystem-mt.dylib</linkerLibFileItem>
+            <linkerLibFileItem>/usr/local/lib/libboost_system-mt.dylib</linkerLibFileItem>
+            <linkerLibFileItem>/usr/local/lib/libboost_program_options-mt.dylib</linkerLibFileItem>
+            <linkerLibFileItem>/usr/local/lib/libboost_thread-mt.dylib</linkerLibFileItem>
+          </linkerLibItems>
+          <commandLine>-lmongoclient</commandLine>
+        </linkerTool>
+      </compileType>
+      <item path="classes/ClientRequest.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="classes/ClientRequest.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="classes/Currency.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="classes/Currency.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="classes/DB.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="classes/DB.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="classes/HashTable.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="classes/HashTable.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="classes/Market.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="classes/Market.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="classes/Order.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="classes/Order.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="classes/SocketServer.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="classes/SocketServer.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="classes/Thread.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="classes/Thread.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="classes/Transaction.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="classes/Transaction.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/test.php" ex="false" tool="3" flavor2="0">
+      </item>
+    </conf>
+    <conf name="Release" type="1">
+      <toolsSet>
+        <remote-sources-mode>LOCAL_SOURCES</remote-sources-mode>
+        <compilerSet>default</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <compileType>
+        <cTool>
+          <developmentMode>5</developmentMode>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </cTool>
+        <ccTool>
+          <developmentMode>5</developmentMode>
+          <incDir>
+            <pElem>.</pElem>
+            <pElem>libraries/mongo/src</pElem>
+          </incDir>
+        </ccTool>
+        <fortranCompilerTool>
+          <developmentMode>5</developmentMode>
+        </fortranCompilerTool>
+        <asmTool>
+          <developmentMode>5</developmentMode>
+        </asmTool>
+        <linkerTool>
+          <linkerLibItems>
+            <linkerLibStdlibItem>PosixThreads</linkerLibStdlibItem>
+            <linkerLibLibItem>boost_thread-mt</linkerLibLibItem>
+            <linkerLibLibItem>boost_filesystem-mt</linkerLibLibItem>
+            <linkerLibLibItem>boost_system-mt</linkerLibLibItem>
+            <linkerLibLibItem>boost_program_options-mt</linkerLibLibItem>
+          </linkerLibItems>
+          <commandLine>-lmongoclient</commandLine>
+        </linkerTool>
+      </compileType>
+      <item path="classes/ClientRequest.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="classes/ClientRequest.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="classes/Currency.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="classes/Currency.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="classes/DB.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="classes/DB.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="classes/HashTable.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="classes/HashTable.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="classes/Market.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="classes/Market.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="classes/Order.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="classes/Order.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="classes/SocketServer.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="classes/SocketServer.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="classes/Thread.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="classes/Thread.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="classes/Transaction.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="classes/Transaction.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/test.php" ex="false" tool="3" flavor2="0">
+      </item>
+    </conf>
+  </confs>
+</configurationDescriptor>
