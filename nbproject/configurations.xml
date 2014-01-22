@@ -63,6 +63,7 @@
           <commandlineTool>g++</commandlineTool>
           <incDir>
             <pElem>.</pElem>
+            <pElem>libraries/mongo/src/boost</pElem>
             <pElem>libraries/mongo/src</pElem>
           </incDir>
         </ccTool>
