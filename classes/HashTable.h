@@ -7,11 +7,9 @@
 
 #ifndef HASHTABLE_H
 #define	HASHTABLE_H
+#include <stdint.h>
 
 #pragma once
-
-typedef unsigned int uint32_t;
-typedef unsigned long long uint64_t;
 
 inline uint64_t upper_power_of_two(uint64_t v)
 {
