@@ -198,5 +198,78 @@
       <item path="tests/test.php" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
+    <conf name="remote" type="1">
+      <toolsSet>
+        <remote-sources-mode>LOCAL_SOURCES</remote-sources-mode>
+        <compilerSet>GNU|GNU</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <compileType>
+        <cTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </cTool>
+        <ccTool>
+          <commandlineTool>g++</commandlineTool>
+          <incDir>
+            <pElem>.</pElem>
+            <pElem>libraries/mongo/src</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <output>${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/bitcointradeengine</output>
+          <linkerLibItems>
+            <linkerLibStdlibItem>PosixThreads</linkerLibStdlibItem>
+            <linkerLibLibItem>boost_filesystem-mt</linkerLibLibItem>
+            <linkerLibLibItem>boost_program_options-mt</linkerLibLibItem>
+            <linkerLibLibItem>boost_system-mt</linkerLibLibItem>
+            <linkerLibLibItem>boost_thread-mt</linkerLibLibItem>
+            <linkerLibLibItem>mongoclient</linkerLibLibItem>
+          </linkerLibItems>
+        </linkerTool>
+      </compileType>
+      <item path="classes/ClientRequest.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="classes/ClientRequest.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="classes/Currency.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="classes/Currency.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="classes/DB.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="classes/DB.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="classes/HashTable.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="classes/HashTable.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="classes/Market.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="classes/Market.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="classes/Order.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="classes/Order.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="classes/SocketServer.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="classes/SocketServer.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="classes/Thread.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="classes/Thread.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="classes/Transaction.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="classes/Transaction.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/test.php" ex="false" tool="3" flavor2="0">
+      </item>
+    </conf>
   </confs>
 </configurationDescriptor>

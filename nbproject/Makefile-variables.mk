@@ -22,6 +22,14 @@ CND_ARTIFACT_PATH_Release=dist/Release/GNU-MacOSX/bitcointradeengine
 CND_PACKAGE_DIR_Release=dist/Release/GNU-MacOSX/package
 CND_PACKAGE_NAME_Release=bitcointradeengine.tar
 CND_PACKAGE_PATH_Release=dist/Release/GNU-MacOSX/package/bitcointradeengine.tar
+# remote configuration
+CND_PLATFORM_remote=GNU-Linux-x86
+CND_ARTIFACT_DIR_remote=dist/remote/GNU-Linux-x86
+CND_ARTIFACT_NAME_remote=bitcointradeengine
+CND_ARTIFACT_PATH_remote=dist/remote/GNU-Linux-x86/bitcointradeengine
+CND_PACKAGE_DIR_remote=dist/remote/GNU-Linux-x86/package
+CND_PACKAGE_NAME_remote=bitcointradeengine.tar
+CND_PACKAGE_PATH_remote=dist/remote/GNU-Linux-x86/package/bitcointradeengine.tar
 #
 # include compiler specific variables
 #
