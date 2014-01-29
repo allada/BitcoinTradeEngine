@@ -79,11 +79,11 @@ bool DB::saveTransaction(Transaction *transaction) {
 void DB::loadOrders() {
 	mongo::BSONObj o_max = getInstance().findOne("btct.orders", mongo::Query().sort("_id", -1));
 	mongo::BSONObj t_max = getInstance().findOne("btct.transactions", mongo::Query().sort("_id", -1));
-	uint64_t o_next_id = o_max.getField("_id").Long();
-	if(o_next_id <= 1000){
-		o_next_id = 1000;
+	uint64_t o_next_id = o_max.getField("_id").ok()?o_max.getField("_id").Long():10000;
+	if(o_next_id < 10000) {
+		o_next_id = 10000;
 	}
-	uint64_t t_next_id = t_max.getField("_id").Long();
+	uint64_t t_next_id = t_max.getField("_id").ok()?t_max.getField("_id").Long():1;
 	if(t_next_id <= 1){
 		t_next_id = 1;
 	}

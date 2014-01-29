@@ -71,7 +71,7 @@
     <conf name="remote" type="1">
       <toolsSet>
         <developmentServer>natbur@162.243.57.72:22</developmentServer>
-        <platform>4</platform>
+        <platform>2</platform>
       </toolsSet>
       <dbx_gdbdebugger version="1">
         <gdb_pathmaps>
