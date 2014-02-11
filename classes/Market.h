@@ -23,7 +23,7 @@ class Order;
 
 class Market {
 public:
-	static std::map<std::string, Market *> markets;
+	static std::map<u_int8_t, Market *> markets;
 
 	u_int16_t market_id;
 	Currency *currency1;

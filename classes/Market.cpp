@@ -146,5 +146,5 @@ Market::~Market() {
 }
 
 void Market::addMarket(Market *market) {
-	Market::markets.insert(market.currency1.name + std::string("_") + market.currency2.name, market);
+	Market::markets.insert(market.market_id, market);
 }
