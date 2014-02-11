@@ -18,6 +18,6 @@ Currency::Currency(const u_int8_t id, const std::string &name) {
 Currency::~Currency() {
 }
 void Currency::addCurrency(Currency *currency) {
-	Currency::currencies.insert(currency->id, currency);
+	Currency::currencies[currency->id] = currency;
 }
 

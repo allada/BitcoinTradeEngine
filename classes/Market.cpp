@@ -146,5 +146,5 @@ Market::~Market() {
 }
 
 void Market::addMarket(Market *market) {
-	Market::markets.insert(market->market_id, market);
+	Market::markets[market->market_id] = market;
 }
