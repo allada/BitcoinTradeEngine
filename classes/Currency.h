@@ -13,10 +13,11 @@ class Currency;
 
 #include <string>
 #include <vector>
+#include <map>
 
 class Currency {
 public:
-	static std::vector<Currency *> currencies;
+	static std::map<u_int8_t, Currency *> currencies;
 	u_int8_t id;
 	std::string name;
 

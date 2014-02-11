@@ -126,8 +126,8 @@ void DB::loadMarkets() {
 	std::auto_ptr<mongo::DBClientCursor> cursor = getInstance().query("btct.markets");
 	while (cursor->more()) {
 		mongo::BSONObj p = cursor->next();
-		Currency *c1 = Currency::currencies[p.getField("c1").Long()];
-		Currency *c2 = Currency::currencies[p.getField("c2").Long()];
+		Currency *c1 = Currency::currencies[(const u_int8_t) p.getField("c1").Long()];
+		Currency *c2 = Currency::currencies[(const u_int8_t) p.getField("c2").Long()];
 		new Market(p.getField("_id").Long(), c1, c2);
 		printf("Loaded %s_%s market\n", c1.name, c2.name);
 	}

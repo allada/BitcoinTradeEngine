@@ -13,6 +13,7 @@ class Market;
 #include <vector>
 #include <iostream>
 #include <string>
+#include <map>
 //#include "ClassList.h"
 #include "Currency.h"
 #include "Transaction.h"
@@ -22,7 +23,7 @@ class Order;
 
 class Market {
 public:
-	static std::vector<Market *> markets;
+	static std::map<std::string, Market *> markets;
 
 	u_int16_t market_id;
 	Currency *currency1;
