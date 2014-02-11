@@ -12,6 +12,7 @@
 class Currency;
 
 #include <string>
+#include <vector>
 
 class Currency {
 public:
@@ -19,7 +20,7 @@ public:
 	u_int8_t id;
 	std::string name;
 
-	Currency(const std::string &name);
+	Currency(const u_int8_t id, const std::string &name);
 
 	virtual ~Currency();
 	static void addCurrency(Currency *currency);
