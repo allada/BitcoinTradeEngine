@@ -14,6 +14,7 @@ class Market;
 #include <iostream>
 #include <string>
 #include <map>
+#include <stdint.h>
 //#include "ClassList.h"
 #include "Currency.h"
 #include "Transaction.h"

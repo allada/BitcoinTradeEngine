@@ -14,6 +14,7 @@ class Currency;
 #include <string>
 #include <vector>
 #include <map>
+#include <stdint.h>
 
 class Currency {
 public:
