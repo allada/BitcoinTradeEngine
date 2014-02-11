@@ -6,6 +6,8 @@
  */
 #include <iostream>
 #include <string>
+#include <map>
+#include <stdint.h>
 #include "classes/Currency.h"
 #include "classes/Order.h"
 #include "classes/Market.h"
@@ -14,8 +16,8 @@
 #include "classes/DB.h"
 
 HashTable Order::orders;
-std::vector<Market *> Market::markets;
-std::vector<Currency *> Currency::currencies;
+std::map<uint8_t, Market *> Market::markets;
+std::map<uint8_t, Currency *> Currency::currencies;
 uint64_t Order::next_id = 1;
 pthread_mutex_t Order::mutex;
 uint64_t Transaction::next_id = 1;
