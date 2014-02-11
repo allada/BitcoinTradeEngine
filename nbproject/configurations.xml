@@ -33,6 +33,7 @@
         <itemPath>classes/Transaction.h</itemPath>
       </logicalFolder>
       <logicalFolder name="f2" displayName="tests" projectFiles="true">
+        <itemPath>reset.php</itemPath>
         <itemPath>tests/test.php</itemPath>
       </logicalFolder>
       <itemPath>main.cpp</itemPath>
@@ -116,6 +117,8 @@
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
+      <item path="reset.php" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="tests/test.php" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
@@ -195,6 +198,8 @@
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
+      <item path="reset.php" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="tests/test.php" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
@@ -267,6 +272,8 @@
       <item path="classes/Transaction.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="reset.php" ex="false" tool="3" flavor2="0">
       </item>
       <item path="tests/test.php" ex="false" tool="3" flavor2="0">
       </item>

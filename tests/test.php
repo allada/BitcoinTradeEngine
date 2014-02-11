@@ -50,8 +50,8 @@ class Order {
 		return $o;
 	}
 	public function send(&$duration = null){
-		//$sock = stream_socket_client('tcp://162.243.57.72:1197', $errno, $errstr);
-		$sock = stream_socket_client('tcp://localhost:1197', $errno, $errstr);
+		$sock = stream_socket_client('tcp://162.243.57.72:1197', $errno, $errstr);
+		//$sock = stream_socket_client('tcp://localhost:1197', $errno, $errstr);
 		if(!$sock){
 			echo "no socket\n";
 			exit;

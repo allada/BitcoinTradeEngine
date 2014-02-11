@@ -7,6 +7,7 @@
 
 #include "DB.h"
 #include "mongo/bson/bsonobj.h"
+#include "Currency.h"
 #include "Order.h"
 #include "Market.h"
 #include "Transaction.h"
@@ -111,4 +112,24 @@ void DB::loadOrders() {
 	}
 	printf("Loaded %u orders\n", order_count);
 	printf("Biggest order number: %u\n", o_next_id);
+}
+void DB::loadCurrencies() {
+	std::auto_ptr<mongo::DBClientCursor> cursor = getInstance().query("btct.currencies");
+	while (cursor->more()) {
+		mongo::BSONObj p = cursor->next();
+		new Currency(p.getField("_id").Long(), p.getField("name").String());
+		printf("Loaded %s currency\n", p.getField("name").String());
+	}
+	printf("Done loading currencies\n");
+}
+void DB::loadMarkets() {
+	std::auto_ptr<mongo::DBClientCursor> cursor = getInstance().query("btct.markets");
+	while (cursor->more()) {
+		mongo::BSONObj p = cursor->next();
+		Currency *c1 = Currency::currencies[p.getField("c1").Long()];
+		Currency *c2 = Currency::currencies[p.getField("c2").Long()];
+		new Market(p.getField("_id").Long(), c1, c2);
+		printf("Loaded %s_%s market\n", c1.name, c2.name);
+	}
+	printf("Done loading markets\n");
 }

@@ -14,6 +14,8 @@ class DB {
 public:
 	static bool saveOrder(Order *order);
 	static bool saveTransaction(Transaction *transaction);
+	static void loadCurrencies();
+	static void loadMarkets();
 	static void loadOrders();
 private:
 	DB();

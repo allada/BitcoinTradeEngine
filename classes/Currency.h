@@ -15,11 +15,14 @@ class Currency;
 
 class Currency {
 public:
+	static std::vector<Currency *> currencies;
+	u_int8_t id;
 	std::string name;
 
 	Currency(const std::string &name);
 
 	virtual ~Currency();
+	static void addCurrency(Currency *currency);
 private:
 };
 
