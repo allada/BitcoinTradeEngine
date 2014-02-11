@@ -9,7 +9,7 @@
 
 #include "Currency.h"
 
-Currency::Currency(const uint8_t id, const std::string &name) {
+Currency::Currency(const uint8_t id, const std::string name) {
 	this->id = id;
 	this->name = name;
 	Currency::addCurrency(this);

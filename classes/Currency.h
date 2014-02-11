@@ -22,7 +22,7 @@ public:
 	uint8_t id;
 	std::string name;
 
-	Currency(const uint8_t id, const std::string &name);
+	Currency(const uint8_t id, const std::string name);
 
 	virtual ~Currency();
 	static void addCurrency(Currency *currency);

@@ -117,8 +117,10 @@ void DB::loadCurrencies() {
 	std::auto_ptr<mongo::DBClientCursor> cursor = getInstance().query("btct.currencies");
 	while (cursor->more()) {
 		mongo::BSONObj p = cursor->next();
-		new Currency(p.getField("_id").Long(), p.getField("name").String());
-		printf("Loaded %s currency\n", p.getField("name").String());
+		uint8_t id = p.getField("_id").Int();
+		std::string name = p.getField("name").String();
+		new Currency(id, name);
+		printf("Loaded %s currency\n", name);
 	}
 	printf("Done loading currencies\n");
 }
@@ -126,9 +128,11 @@ void DB::loadMarkets() {
 	std::auto_ptr<mongo::DBClientCursor> cursor = getInstance().query("btct.markets");
 	while (cursor->more()) {
 		mongo::BSONObj p = cursor->next();
-		Currency *c1 = Currency::currencies[(const uint8_t) p.getField("c1").Long()];
-		Currency *c2 = Currency::currencies[(const uint8_t) p.getField("c2").Long()];
-		new Market(p.getField("_id").Long(), c1, c2);
+		uint8_t c1v = p.getField("c1").Int();
+		uint8_t c2v = p.getField("c1").Int();
+		Currency *c1 = Currency::currencies[c1v];
+		Currency *c2 = Currency::currencies[c2v];
+		new Market(p.getField("_id").Int(), c1, c2);
 		printf("Loaded %s_%s market\n", c1->name, c2->name);
 	}
 	printf("Done loading markets\n");
