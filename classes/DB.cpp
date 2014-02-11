@@ -129,7 +129,7 @@ void DB::loadMarkets() {
 		Currency *c1 = Currency::currencies[(const u_int8_t) p.getField("c1").Long()];
 		Currency *c2 = Currency::currencies[(const u_int8_t) p.getField("c2").Long()];
 		new Market(p.getField("_id").Long(), c1, c2);
-		printf("Loaded %s_%s market\n", c1.name, c2.name);
+		printf("Loaded %s_%s market\n", c1->name, c2->name);
 	}
 	printf("Done loading markets\n");
 }
