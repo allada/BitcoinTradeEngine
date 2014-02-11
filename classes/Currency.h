@@ -17,11 +17,11 @@ class Currency;
 
 class Currency {
 public:
-	static std::map<u_int8_t, Currency *> currencies;
-	u_int8_t id;
+	static std::map<uint8_t, Currency *> currencies;
+	uint8_t id;
 	std::string name;
 
-	Currency(const u_int8_t id, const std::string &name);
+	Currency(const uint8_t id, const std::string &name);
 
 	virtual ~Currency();
 	static void addCurrency(Currency *currency);

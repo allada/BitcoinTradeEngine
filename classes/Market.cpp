@@ -8,7 +8,7 @@
 #include <sys/param.h>
 #include <stdio.h>
 
-Market::Market(u_int8_t market_id, Currency *currency1, Currency *currency2) {
+Market::Market(uint8_t market_id, Currency *currency1, Currency *currency2) {
 	this->market_id		= market_id;
 	this->currency1		= currency1;
 	this->currency2		= currency2;

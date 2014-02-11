@@ -23,16 +23,16 @@ class Order;
 
 class Market {
 public:
-	static std::map<u_int8_t, Market *> markets;
+	static std::map<uint8_t, Market *> markets;
 
-	u_int16_t market_id;
+	uint16_t market_id;
 	Currency *currency1;
 	Currency *currency2;
 	std::vector<Order *> *buyOrders;
 	std::vector<Order *> *sellOrders;
 
 	std::string getName() { return this->currency1->name + '_' + this->currency2->name; }
-	Market(u_int8_t market_id, Currency *currency1, Currency *currency2);
+	Market(uint8_t market_id, Currency *currency1, Currency *currency2);
 
 	bool addOrder(Order *addOrder);
 	void removeOrder(Order *order);

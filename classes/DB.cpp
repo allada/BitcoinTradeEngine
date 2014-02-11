@@ -45,7 +45,7 @@ bool DB::saveOrder(Order *order) {
 				"orig_qty"		<< (long long) order->orig_qty <<
 				"price"			<< (long long) order->price <<
 				"timestamp"		<< order->timestamp <<
-				"status"		<< (u_int8_t) order->status
+				"status"		<< (uint8_t) order->status
 		), true, false);
 		std::string err = getInstance().getLastError();
 		if(!err.empty()){
@@ -126,8 +126,8 @@ void DB::loadMarkets() {
 	std::auto_ptr<mongo::DBClientCursor> cursor = getInstance().query("btct.markets");
 	while (cursor->more()) {
 		mongo::BSONObj p = cursor->next();
-		Currency *c1 = Currency::currencies[(const u_int8_t) p.getField("c1").Long()];
-		Currency *c2 = Currency::currencies[(const u_int8_t) p.getField("c2").Long()];
+		Currency *c1 = Currency::currencies[(const uint8_t) p.getField("c1").Long()];
+		Currency *c2 = Currency::currencies[(const uint8_t) p.getField("c2").Long()];
 		new Market(p.getField("_id").Long(), c1, c2);
 		printf("Loaded %s_%s market\n", c1->name, c2->name);
 	}
