@@ -43,7 +43,7 @@ SocketServer::SocketServer(int port) {
         perror("ERROR opening socket");
         return;
     }
-	if(bind(this->sock, (struct sockaddr*) &server, sizeof(server)) < 0) {
+	if(bind(this->sock, (const struct sockaddr *) &server, (uint32_t) sizeof(server)) < 0) {
 		perror("ERROR binding stream socket");
 		return;
 	}

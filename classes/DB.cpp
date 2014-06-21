@@ -111,7 +111,7 @@ void DB::loadOrders() {
 		order_count++;
 	}
 	printf("Loaded %u orders\n", order_count);
-	printf("Biggest order number: %u\n", o_next_id);
+	printf("Biggest order number: %llu\n", o_next_id);
 }
 void DB::loadCurrencies() {
 	std::auto_ptr<mongo::DBClientCursor> cursor = getInstance().query("btct.currencies");
@@ -120,7 +120,7 @@ void DB::loadCurrencies() {
 		uint8_t id = p.getField("_id").Int();
 		std::string name = p.getField("name").String();
 		new Currency(id, name);
-		printf("Loaded %s currency\n", name);
+		printf("Loaded %s currency\n", name.c_str());
 	}
 	printf("Done loading currencies\n");
 }
@@ -133,7 +133,7 @@ void DB::loadMarkets() {
 		Currency *c1 = Currency::currencies[c1v];
 		Currency *c2 = Currency::currencies[c2v];
 		new Market(p.getField("_id").Int(), c1, c2);
-		printf("Loaded %s_%s market\n", c1->name, c2->name);
+		printf("Loaded %s_%s market\n", c1->name.c_str(), c2->name.c_str());
 	}
 	printf("Done loading markets\n");
 }
